@@ -30,6 +30,8 @@ func main() {
 		dbUser, dbPwd, dbTCPHost, dbPort, dbName)
 
 	// end connected
+
+	// open connection
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	fmt.Println(db)
