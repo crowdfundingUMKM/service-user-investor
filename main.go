@@ -64,6 +64,7 @@ func main() {
 	api.POST("users_investor", userHandler.RegisterUser)
 
 	// end Rounting
-	router.Run()
+	port := os.Getenv("PORT")
+	router.Run(port)
 
 }

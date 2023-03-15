@@ -29,7 +29,7 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	}
 
 	user.PasswordHash = string(passwordHash)
-	user.Role = "user"
+	user.Role = "activate"
 
 	newUser, err := s.repository.Save(user)
 	if err != nil {
