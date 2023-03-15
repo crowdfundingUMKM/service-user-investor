@@ -58,14 +58,12 @@ func main() {
 
 	// RUN SERVICE
 	router := gin.Default()
-
 	api := router.Group("api/v1")
 
-	// handler start
+	// Rounting start
 	api.POST("users_investor", userHandler.RegisterUser)
 
-	// end handler
+	// end Rounting
 	router.Run()
 
-	// fmt.Println("This is service user investor")
 }
