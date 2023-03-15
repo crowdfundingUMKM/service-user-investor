@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -31,7 +30,6 @@ func main() {
 		dbUser, dbPwd, dbTCPHost, dbPort, dbName)
 
 	// end connected
-
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	fmt.Println(db)
