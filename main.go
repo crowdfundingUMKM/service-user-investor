@@ -5,6 +5,10 @@ import (
 	"log"
 	"os"
 
+	"service-user-investor/auth"
+	"service-user-investor/handler"
+	"service-user-investor/investor"
+
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
@@ -41,6 +45,15 @@ func main() {
 
 	// SETUP REPO
 
+	userInvestorRepository := investor.NewRepository(db)
+
+	// SETUP SERVICE
+	userInvestorService := investor.NewService(userInvestorRepository)
+	authService := auth.NewService()
+
+	// setup handler
+	userHandler := handler.NewUserHandler(userInvestorService, authService)
+
 	// END SETUP
 
 	// RUN SERVICE
@@ -49,7 +62,7 @@ func main() {
 	api := router.Group("api/v1")
 
 	// handler start
-	api.GET("/initial")
+	api.POST("users_investor", userHandler.RegisterUser)
 
 	// end handler
 	router.Run()
