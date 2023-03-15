@@ -1,6 +1,6 @@
 ### to do service-user-investor
 
-- [ ] POST Register
+- [x] POST Register
 - [ ] POST Login
 
 - Dashboard
