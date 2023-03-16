@@ -5,18 +5,12 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 func NewConnectionDB() *gorm.DB {
 	// initial connected db
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
 	var (
 		dbUser    = os.Getenv("DB_USER")       // e.g. 'my-db-user'
 		dbPwd     = os.Getenv("DB_PASS")       // e.g. 'my-db-password'
