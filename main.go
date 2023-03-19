@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -40,7 +41,7 @@ func main() {
 	api.POST("users_investor", userHandler.RegisterUser)
 
 	// end Rounting
-	port := os.Getenv("PORT")
+	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
 	router.Run(port)
 
 }
