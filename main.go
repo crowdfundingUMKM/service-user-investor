@@ -38,7 +38,7 @@ func main() {
 	api := router.Group("api/v1")
 
 	// Rounting start
-	api.POST("users_investor", userHandler.RegisterUser)
+	api.POST("register_investor", userHandler.RegisterUser)
 
 	// end Rounting
 	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
