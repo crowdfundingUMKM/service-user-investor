@@ -39,6 +39,7 @@ func main() {
 
 	// Rounting start
 	api.POST("register_investor", userHandler.RegisterUser)
+	// make api for login
 
 	// end Rounting
 	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
