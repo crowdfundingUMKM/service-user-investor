@@ -50,6 +50,7 @@ func main() {
 
 	// Rounting start
 	api.POST("register_investor", userHandler.RegisterUser)
+	api.POST("/login_investor", userHandler.Login)
 	// make api for login
 
 	// end Rounting
