@@ -1,6 +1,10 @@
 ### to do service-user-investor
 
-- [ ] POST Register
+- Admin req
+- [x] GET Log service
+- [x] GET Service status
+
+- [x] POST Register
 - [ ] POST Login
 
 - Dashboard
