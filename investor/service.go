@@ -1,6 +1,8 @@
 package investor
 
 import (
+	"os"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -29,7 +31,8 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	}
 
 	user.PasswordHash = string(passwordHash)
-	user.Role = "activate"
+	// convert data os env to string
+	user.Role = string(os.Getenv("ROLEUSERS"))
 
 	newUser, err := s.repository.Save(user)
 	if err != nil {
