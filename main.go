@@ -45,7 +45,7 @@ func main() {
 	api := router.Group("api/v1")
 
 	// admin request
-	// api.GET("admin/:id", userHandler.GetLogtoAdmin)
+	// api.GET("log_admin/:id", userHandler.GetLogtoAdmin)
 	api.GET("service_status", userHandler.ServiceHealth)
 
 	// Rounting start
