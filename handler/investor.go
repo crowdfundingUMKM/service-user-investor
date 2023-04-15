@@ -49,6 +49,7 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 	}
 }
 
+// for admin get env
 func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 	db_user := os.Getenv("DB_USER")
 	db_pass := os.Getenv("DB_PASS")
