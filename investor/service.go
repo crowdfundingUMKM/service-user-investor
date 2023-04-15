@@ -3,6 +3,7 @@ package investor
 import (
 	"os"
 
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -20,6 +21,7 @@ func NewService(repository Repository) *service {
 
 func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	user := User{}
+	user.UnixID = uuid.New().String()[:12]
 	user.Name = input.Name
 	user.Email = input.Email
 	user.Phone = input.Phone

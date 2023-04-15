@@ -6,6 +6,7 @@ import (
 
 type User struct {
 	ID             int
+	UnixID         string
 	Name           string
 	Email          string
 	Phone          int
