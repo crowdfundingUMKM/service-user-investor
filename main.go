@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 
@@ -20,6 +21,13 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+	// setup log
+	f, err := os.Create("./log/gin.log")
+	if err != nil {
+		log.Fatal("cannot create open gin.log", err)
+	}
+	gin.DefaultWriter = io.MultiWriter(f)
+
 	// SETUP REPO
 	db := database.NewConnectionDB()
 	userInvestorRepository := investor.NewRepository(db)
@@ -36,6 +44,10 @@ func main() {
 	// RUN SERVICE
 	router := gin.Default()
 	api := router.Group("api/v1")
+
+	// admin request
+	api.GET("admin/:id", userHandler.GetLogtoAdmin)
+	api.GET("service_health", userHandler.ServiceHealth)
 
 	// Rounting start
 	api.POST("register_investor", userHandler.RegisterUser)

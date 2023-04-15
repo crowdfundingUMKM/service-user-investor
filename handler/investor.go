@@ -1,7 +1,9 @@
 package handler
 
 import (
+	"io/ioutil"
 	"net/http"
+	"os"
 	"service-user-investor/auth"
 	"service-user-investor/helper"
 	"service-user-investor/investor"
@@ -16,6 +18,59 @@ type userInvestorHandler struct {
 
 func NewUserHandler(userService investor.Service, authService auth.Service) *userInvestorHandler {
 	return &userInvestorHandler{userService, authService}
+}
+
+func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
+	// get id from params
+	// get user from service
+	// format user
+	// response
+	// id := c.Param("id")
+	// user, err := h.userService.GetUserByID(id)
+	// if err != nil {
+	// 	response := helper.APIResponse("Failed to get user", http.StatusBadRequest, "error", nil)
+	// 	c.JSON(http.StatusBadRequest, response)
+	// 	return
+	// }
+
+	// formatter := investor.FormatterUser(user, "")
+	// response := helper.APIResponse("Success to get user", http.StatusOK, "success", formatter)
+	// c.JSON(http.StatusOK, response)
+	id := os.Getenv("ADMIN_ID")
+	if c.Param("id") == id {
+		content, err := ioutil.ReadFile("./log/gin.log")
+		if err != nil {
+			c.String(500, "Failed to read log file admin: %v", err)
+			return
+		}
+		c.String(http.StatusOK, string(content))
+	} else {
+		c.String(http.StatusNotFound, "Not found")
+	}
+}
+
+func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
+	db_user := os.Getenv("DB_USER")
+	db_pass := os.Getenv("DB_PASS")
+	db_name := os.Getenv("DB_NAME")
+	db_port := os.Getenv("DB_PORT")
+	instance_host := os.Getenv("INSTANCE_HOST")
+
+	data := map[string]interface{}{
+		"db_user":          db_user,
+		"db_pass":          db_pass,
+		"db_name":          db_name,
+		"db_port":          db_port,
+		"db_instance_host": instance_host,
+	}
+	err := c.Errors
+	if err != nil {
+		response := helper.APIResponse("Service investor is not running", http.StatusInternalServerError, "error", nil)
+		c.JSON(http.StatusInternalServerError, response)
+		return
+	}
+	response := helper.APIResponse("Service investor is running", http.StatusOK, "success", data)
+	c.JSON(http.StatusOK, response)
 }
 
 func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
