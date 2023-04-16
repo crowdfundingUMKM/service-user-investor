@@ -5,7 +5,9 @@
 - [x] GET Service status
 
 - [x] POST Register
-- [ ] POST Login
+- [x] POST Login
+- [x] POST Check email
+- [x] POST Check Phone
 
 - Dashboard
 - [ ] GET User Profile
