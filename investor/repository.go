@@ -9,7 +9,7 @@ import (
 type Repository interface {
 	Save(user User) (User, error)
 	FindByEmail(email string) (User, error)
-	FindByPhone(phone int) (User, error)
+	FindByPhone(phone string) (User, error)
 }
 
 type repository struct {
@@ -40,7 +40,7 @@ func (r *repository) FindByEmail(email string) (User, error) {
 
 }
 
-func (r *repository) FindByPhone(phone int) (User, error) {
+func (r *repository) FindByPhone(phone string) (User, error) {
 	var user User
 
 	err := r.db.Where("phone = ?", phone).Find(&user).Error

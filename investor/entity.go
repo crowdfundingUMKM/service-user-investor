@@ -9,7 +9,7 @@ type User struct {
 	UnixID         string
 	Name           string
 	Email          string
-	Phone          int
+	Phone          string
 	PasswordHash   string
 	AvatarFileName string
 	Role           string

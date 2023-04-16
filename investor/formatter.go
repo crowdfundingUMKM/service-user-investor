@@ -4,7 +4,7 @@ type UserInvestorFormatter struct {
 	ID     int    `json:"id"`
 	UnixID string `json:"unix_id"`
 	Name   string `json:"name"`
-	Phone  int    `json:"phone"`
+	Phone  string `json:"phone"`
 	Email  string `json:"email"`
 	Token  string `json:"token"`
 }
