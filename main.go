@@ -51,7 +51,8 @@ func main() {
 	// Rounting start
 	api.POST("register_investor", userHandler.RegisterUser)
 	api.POST("/login_investor", userHandler.Login)
-	// make api for login
+	api.POST("email_check", userHandler.CheckEmailAvailability)
+	// errorr email_check
 
 	// end Rounting
 	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
