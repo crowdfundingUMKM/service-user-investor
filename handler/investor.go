@@ -149,6 +149,14 @@ func (h *userInvestorHandler) Login(c *gin.Context) {
 
 	response := helper.APIResponse("Succesfuly loggedin", http.StatusOK, "success", formatter)
 
+	// check role acvtive and not send massage your account deactive
+	if loggedinUser.Role != "active" {
+		errorMessage := gin.H{"errors": "Your account is deactive by admin"}
+		response := helper.APIResponse("Login failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
 	c.JSON(http.StatusOK, response)
 }
 
