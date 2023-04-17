@@ -38,7 +38,7 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 
 	user.PasswordHash = string(passwordHash)
 	// convert data os env to string
-	user.Role = string(os.Getenv("ROLEUSERS"))
+	user.StatusAccount = string(os.Getenv("STATUS_ACCOUNT"))
 
 	newUser, err := s.repository.Save(user)
 	if err != nil {
