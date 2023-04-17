@@ -10,10 +10,6 @@
 - [x] POST Check email
 - [x] POST Check Phone
 
-- [x] POST Register
-- [ ] POST Login
-
-
 - Dashboard
 - [ ] GET User Profile
 - [ ] POST Update_avatar
