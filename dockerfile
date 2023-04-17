@@ -4,15 +4,12 @@ FROM golang:1.19-alpine
 
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
+COPY . .
 
 RUN go mod download
 
-COPY *.go ./
+RUN go build -o ./main
 
-RUN go build -o /service-user-investor
+EXPOSE 8082
 
-EXPOSE 8080
-
-CMD [ "/service-user-investor" ]
+CMD [ "./main" ]

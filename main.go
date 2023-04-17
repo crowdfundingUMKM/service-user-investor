@@ -6,45 +6,29 @@ import (
 	"os"
 
 	"service-user-investor/auth"
+	"service-user-investor/database"
 	"service-user-investor/handler"
 	"service-user-investor/investor"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 func main() {
-	// initial connected db
+	// env
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-
-	var (
-		dbUser    = os.Getenv("DB_USER")       // e.g. 'my-db-user'
-		dbPwd     = os.Getenv("DB_PASS")       // e.g. 'my-db-password'
-		dbName    = os.Getenv("DB_NAME")       // e.g. 'my-database'
-		dbPort    = os.Getenv("DB_PORT")       // e.g. '3306'
-		dbTCPHost = os.Getenv("INSTANCE_HOST") // e.g. '127.0.0.1' ('172.17.0.1' if deployed to GAE Flex)
-	)
-
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		dbUser, dbPwd, dbTCPHost, dbPort, dbName)
-
-	// end connected
-
-	// open connection
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-
-	fmt.Println(db)
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	// setup log
+	// f, err := os.Create("./log/gin.log")
+	// if err != nil {
+	// 	log.Fatal("cannot create open gin.log", err)
+	// }
+	// gin.DefaultWriter = io.MultiWriter(f)
 
 	// SETUP REPO
-
+	db := database.NewConnectionDB()
 	userInvestorRepository := investor.NewRepository(db)
 
 	// SETUP SERVICE
@@ -60,11 +44,20 @@ func main() {
 	router := gin.Default()
 	api := router.Group("api/v1")
 
+	// admin request
+	// api.GET("log_admin/:id", userHandler.GetLogtoAdmin)
+	api.GET("service_status", userHandler.ServiceHealth)
+
 	// Rounting start
-	api.POST("users_investor", userHandler.RegisterUser)
+	api.POST("register_investor", userHandler.RegisterUser)
+	api.POST("login_investor", userHandler.Login)
+	api.POST("email_check", userHandler.CheckEmailAvailability)
+	api.POST("phone_check", userHandler.CheckPhoneAvailability)
+
+	// errorr email_check
 
 	// end Rounting
-	port := os.Getenv("PORT")
+	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
 	router.Run(port)
 
 }

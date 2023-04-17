@@ -6,12 +6,13 @@ import (
 
 type User struct {
 	ID             int
+	UnixID         string
 	Name           string
 	Email          string
-	Phone          int
+	Phone          string
 	PasswordHash   string
 	AvatarFileName string
-	Role           string
+	StatusAccount  string
 	Token          string
 	CreatedAt      time.Time
 	UpdatedAt      time.Time

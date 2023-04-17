@@ -2,6 +2,7 @@ package auth
 
 import (
 	"errors"
+	"os"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -14,7 +15,8 @@ type Service interface {
 type jwtService struct {
 }
 
-var SECRET_KEY = []byte("BWASTARTUP_s3cr3T_k3Y")
+var secret = os.Getenv("JWT_SECRET")
+var SECRET_KEY = []byte(secret)
 
 func NewService() *jwtService {
 	return &jwtService{}
