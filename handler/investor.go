@@ -51,6 +51,13 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 
 // for admin get env
 func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
+
+	id := os.Getenv("ADMIN_ID")
+	if c.Param("id") != id {
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
+	}
 	db_user := os.Getenv("DB_USER")
 	db_pass := os.Getenv("DB_PASS")
 	db_name := os.Getenv("DB_NAME")

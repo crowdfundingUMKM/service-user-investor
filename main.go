@@ -43,7 +43,7 @@ func main() {
 
 	// admin request
 	// api.GET("log_admin/:id", userHandler.GetLogtoAdmin)
-	api.GET("service_status", userHandler.ServiceHealth)
+	api.GET("service_status/:id", userHandler.ServiceHealth)
 
 	// Rounting start
 	api.POST("register_investor", userHandler.RegisterUser)
