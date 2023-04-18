@@ -86,6 +86,83 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// deactive account
+func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
+	var input investor.DeactiveUserInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("User Not Found", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	// check id admin
+	id := os.Getenv("ADMIN_ID")
+	if c.Param("id") == id {
+		// get id user
+
+		// deactive user
+		deactive, err := h.userService.DeactivateAccountUser(input)
+
+		data := gin.H{
+			"success_deactive": deactive,
+		}
+
+		if err != nil {
+			response := helper.APIResponse("Failed to deactive user", http.StatusBadRequest, "error", data)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
+		response := helper.APIResponse("User has been deactive", http.StatusOK, "success", data)
+		c.JSON(http.StatusOK, response)
+	} else {
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
+	}
+}
+
+func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
+	var input investor.DeactiveUserInput
+
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("User Not Found", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	// check id admin
+	id := os.Getenv("ADMIN_ID")
+	if c.Param("id") == id {
+		// get id user
+
+		// deactive user
+		active, err := h.userService.ActivateAccountUser(input)
+
+		data := gin.H{
+			"success_deactive": active,
+		}
+
+		if err != nil {
+			response := helper.APIResponse("Failed to active user", http.StatusBadRequest, "error", data)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
+		response := helper.APIResponse("User has been active", http.StatusOK, "success", data)
+		c.JSON(http.StatusOK, response)
+	} else {
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
+	}
+}
+
 func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
 	// tangkap input dari user
 	// map input dari user ke struct RegisterUserInput
