@@ -13,6 +13,7 @@ type Service interface {
 	Login(input LoginInput) (User, error)
 	IsEmailAvailable(input CheckEmailInput) (bool, error)
 	IsPhoneAvailable(input CheckPhoneInput) (bool, error)
+	DeactivateAccountUser(input DeactiveUserInput) (bool, error)
 }
 
 type service struct {
@@ -95,4 +96,19 @@ func (s *service) IsPhoneAvailable(input CheckPhoneInput) (bool, error) {
 	}
 
 	return false, nil
+}
+
+func (s *service) DeactivateAccountUser(input DeactiveUserInput) (bool, error) {
+	user, err := s.repository.FindByUnixID(input.UnixID)
+	user.StatusAccount = "Deactive"
+	_, err = s.repository.UpdateStatusAccount(user)
+
+	if err != nil {
+		return false, err
+	}
+
+	if user.ID == 0 {
+		return true, nil
+	}
+	return true, nil
 }

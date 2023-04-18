@@ -19,3 +19,7 @@ type CheckEmailInput struct {
 type CheckPhoneInput struct {
 	Phone string `json:"phone" binding:"required"`
 }
+
+type DeactiveUserInput struct {
+	UnixID string `json:"unix_id" binding:"required"`
+}
