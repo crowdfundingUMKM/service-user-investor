@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	L "service-user-investor/log"
 
 	"service-user-investor/auth"
 	"service-user-investor/database"
@@ -20,12 +21,9 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
 	// setup log
-	// f, err := os.Create("./log/gin.log")
-	// if err != nil {
-	// 	log.Fatal("cannot create open gin.log", err)
-	// }
-	// gin.DefaultWriter = io.MultiWriter(f)
+	L.InitLog()
 
 	// SETUP REPO
 	db := database.NewConnectionDB()
