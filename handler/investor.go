@@ -56,6 +56,10 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 	db_name := os.Getenv("DB_NAME")
 	db_port := os.Getenv("DB_PORT")
 	instance_host := os.Getenv("INSTANCE_HOST")
+	service_port := os.Getenv("PORT")
+	jwt_secret := os.Getenv("JWT_SECRET")
+	status_account := os.Getenv("STATUS_ACCOUNT")
+	admin_id := os.Getenv("ADMIN_ID")
 
 	data := map[string]interface{}{
 		"db_user":          db_user,
@@ -63,6 +67,10 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 		"db_name":          db_name,
 		"db_port":          db_port,
 		"db_instance_host": instance_host,
+		"service_port":     service_port,
+		"jwt_secret":       jwt_secret,
+		"status_account":   status_account,
+		"admin_id":         admin_id,
 	}
 	err := c.Errors
 	if err != nil {
