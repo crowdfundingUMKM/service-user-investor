@@ -20,12 +20,9 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+
 	// setup log
-	// f, err := os.Create("./log/gin.log")
-	// if err != nil {
-	// 	log.Fatal("cannot create open gin.log", err)
-	// }
-	// gin.DefaultWriter = io.MultiWriter(f)
+	// L.InitLog()
 
 	// SETUP REPO
 	db := database.NewConnectionDB()
@@ -45,10 +42,13 @@ func main() {
 	api := router.Group("api/v1")
 
 	// admin request
-	// api.GET("log_admin/:id", userHandler.GetLogtoAdmin)
-	api.GET("service_status", userHandler.ServiceHealth)
+	// api.GET("/admin/log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
+	api.GET("/admin/service_status/:id", userHandler.ServiceHealth)
+	// make endpoint deactive user
+	api.POST("/admin/deactive_user/:id", userHandler.DeactiveUser)
+	api.POST("/admin/active_user/:id", userHandler.ActiveUser)
 
-	// Rounting start
+	// Rounting start for investor
 	api.POST("register_investor", userHandler.RegisterUser)
 	api.POST("login_investor", userHandler.Login)
 	api.POST("email_check", userHandler.CheckEmailAvailability)
