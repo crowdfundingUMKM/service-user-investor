@@ -22,21 +22,7 @@ func NewUserHandler(userService investor.Service, authService auth.Service) *use
 }
 
 func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
-	// get id from params
-	// get user from service
-	// format user
-	// response
-	// id := c.Param("id")
-	// user, err := h.userService.GetUserByID(id)
-	// if err != nil {
-	// 	response := helper.APIResponse("Failed to get user", http.StatusBadRequest, "error", nil)
-	// 	c.JSON(http.StatusBadRequest, response)
-	// 	return
-	// }
-
-	// formatter := investor.FormatterUser(user, "")
-	// response := helper.APIResponse("Success to get user", http.StatusOK, "success", formatter)
-	// c.JSON(http.StatusOK, response)
+	// check id admin
 	id := os.Getenv("ADMIN_ID")
 	if c.Param("id") == id {
 		content, err := ioutil.ReadFile("./log/gin.log")
@@ -55,11 +41,6 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 
 // for admin get env
 func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
-
-	// err := godotenv.Load()
-	// if err != nil {
-	// 	log.Fatal("Error loading .env file")
-	// }
 	// check env open or not
 	errEnv := godotenv.Load()
 	if errEnv != nil {
