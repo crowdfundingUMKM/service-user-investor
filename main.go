@@ -47,6 +47,7 @@ func main() {
 
 	// make endpoint deactive user
 	api.POST("/admin/deactive_user/:id", userHandler.DeactiveUser)
+	api.POST("/admin/active_user/:id", userHandler.ActiveUser)
 
 	// Rounting start
 	api.POST("register_investor", userHandler.RegisterUser)

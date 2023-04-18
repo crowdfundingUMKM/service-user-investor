@@ -23,3 +23,7 @@ type CheckPhoneInput struct {
 type DeactiveUserInput struct {
 	UnixID string `json:"unix_id" binding:"required"`
 }
+
+type ActiveUserInput struct {
+	UnixID string `json:"unix_id" binding:"required"`
+}
