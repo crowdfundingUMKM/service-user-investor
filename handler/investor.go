@@ -9,6 +9,7 @@ import (
 	"service-user-investor/investor"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 type userInvestorHandler struct {
@@ -55,6 +56,18 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 // for admin get env
 func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	log.Fatal("Error loading .env file")
+	// }
+	// check env open or not
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+		response := helper.APIResponse("Failed to get env for service investor", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
 	id := os.Getenv("ADMIN_ID")
 	if c.Param("id") != id {
 		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
@@ -82,8 +95,8 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 		"status_account":   status_account,
 		"admin_id":         admin_id,
 	}
-	err := c.Errors
-	if err != nil {
+	errService := c.Errors
+	if errService != nil {
 		response := helper.APIResponse("Service investor is not running", http.StatusInternalServerError, "error", nil)
 		c.JSON(http.StatusInternalServerError, response)
 		return
