@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	L "service-user-investor/log"
 
 	"service-user-investor/auth"
 	"service-user-investor/database"
@@ -23,7 +22,7 @@ func main() {
 	}
 
 	// setup log
-	L.InitLog()
+	// L.InitLog()
 
 	// SETUP REPO
 	db := database.NewConnectionDB()
