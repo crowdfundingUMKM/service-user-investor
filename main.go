@@ -44,12 +44,11 @@ func main() {
 	// admin request
 	// api.GET("/admin/log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
 	api.GET("/admin/service_status/:id", userHandler.ServiceHealth)
-
 	// make endpoint deactive user
 	api.POST("/admin/deactive_user/:id", userHandler.DeactiveUser)
 	api.POST("/admin/active_user/:id", userHandler.ActiveUser)
 
-	// Rounting start
+	// Rounting start for investor
 	api.POST("register_investor", userHandler.RegisterUser)
 	api.POST("login_investor", userHandler.Login)
 	api.POST("email_check", userHandler.CheckEmailAvailability)
