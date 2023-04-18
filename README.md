@@ -2,17 +2,13 @@
 
 
 - Admin req
-- [x] GET Log service
+- [x] ~GET Log service
 - [x] GET Service status
 
 - [x] POST Register
 - [x] POST Login
 - [x] POST Check email
 - [x] POST Check Phone
-
-- [x] POST Register
-- [ ] POST Login
-
 
 - Dashboard
 - [ ] GET User Profile

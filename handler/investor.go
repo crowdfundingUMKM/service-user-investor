@@ -9,6 +9,7 @@ import (
 	"service-user-investor/investor"
 
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 type userInvestorHandler struct {
@@ -21,41 +22,48 @@ func NewUserHandler(userService investor.Service, authService auth.Service) *use
 }
 
 func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
-	// get id from params
-	// get user from service
-	// format user
-	// response
-	// id := c.Param("id")
-	// user, err := h.userService.GetUserByID(id)
-	// if err != nil {
-	// 	response := helper.APIResponse("Failed to get user", http.StatusBadRequest, "error", nil)
-	// 	c.JSON(http.StatusBadRequest, response)
-	// 	return
-	// }
-
-	// formatter := investor.FormatterUser(user, "")
-	// response := helper.APIResponse("Success to get user", http.StatusOK, "success", formatter)
-	// c.JSON(http.StatusOK, response)
+	// check id admin
 	id := os.Getenv("ADMIN_ID")
 	if c.Param("id") == id {
 		content, err := ioutil.ReadFile("./log/gin.log")
 		if err != nil {
-			c.String(500, "Failed to read log file admin: %v", err)
+			response := helper.APIResponse("Failed to get log", http.StatusBadRequest, "error", nil)
+			c.JSON(http.StatusBadRequest, response)
 			return
 		}
 		c.String(http.StatusOK, string(content))
 	} else {
-		c.String(http.StatusNotFound, "Not found")
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
 	}
 }
 
 // for admin get env
 func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
+	// check env open or not
+	errEnv := godotenv.Load()
+	if errEnv != nil {
+		response := helper.APIResponse("Failed to get env for service investor", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	id := os.Getenv("ADMIN_ID")
+	if c.Param("id") != id {
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
+	}
 	db_user := os.Getenv("DB_USER")
 	db_pass := os.Getenv("DB_PASS")
 	db_name := os.Getenv("DB_NAME")
 	db_port := os.Getenv("DB_PORT")
 	instance_host := os.Getenv("INSTANCE_HOST")
+	service_port := os.Getenv("PORT")
+	jwt_secret := os.Getenv("JWT_SECRET")
+	status_account := os.Getenv("STATUS_ACCOUNT")
+	admin_id := os.Getenv("ADMIN_ID")
 
 	data := map[string]interface{}{
 		"db_user":          db_user,
@@ -63,9 +71,13 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 		"db_name":          db_name,
 		"db_port":          db_port,
 		"db_instance_host": instance_host,
+		"service_port":     service_port,
+		"jwt_secret":       jwt_secret,
+		"status_account":   status_account,
+		"admin_id":         admin_id,
 	}
-	err := c.Errors
-	if err != nil {
+	errService := c.Errors
+	if errService != nil {
 		response := helper.APIResponse("Service investor is not running", http.StatusInternalServerError, "error", nil)
 		c.JSON(http.StatusInternalServerError, response)
 		return
