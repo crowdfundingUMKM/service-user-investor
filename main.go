@@ -42,8 +42,11 @@ func main() {
 	api := router.Group("api/v1")
 
 	// admin request
-	// api.GET("log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
-	api.GET("service_status/:id", userHandler.ServiceHealth)
+	// api.GET("/admin/log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
+	api.GET("/admin/service_status/:id", userHandler.ServiceHealth)
+
+	// make endpoint deactive user
+	// api.POST("/admin/deactive_user/:unix_id", userHandler.DeactiveUser)
 
 	// Rounting start
 	api.POST("register_investor", userHandler.RegisterUser)
