@@ -40,12 +40,15 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 	if c.Param("id") == id {
 		content, err := ioutil.ReadFile("./log/gin.log")
 		if err != nil {
-			c.String(500, "Failed to read log file admin: %v", err)
+			response := helper.APIResponse("Failed to get log", http.StatusBadRequest, "error", nil)
+			c.JSON(http.StatusBadRequest, response)
 			return
 		}
 		c.String(http.StatusOK, string(content))
 	} else {
-		c.String(http.StatusNotFound, "Not found")
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
 	}
 }
 
