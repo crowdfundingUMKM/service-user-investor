@@ -8,7 +8,7 @@ import (
 )
 
 type Service interface {
-	GenerateToken(userID int) (string, error)
+	GenerateToken(userID string) (string, error)
 	ValidateToken(token string) (*jwt.Token, error)
 }
 
@@ -22,7 +22,7 @@ func NewService() *jwtService {
 	return &jwtService{}
 }
 
-func (s *jwtService) GenerateToken(userID int) (string, error) {
+func (s *jwtService) GenerateToken(userID string) (string, error) {
 	claim := jwt.MapClaims{}
 	claim["user_id"] = userID
 
@@ -51,3 +51,5 @@ func (s *jwtService) ValidateToken(endcodedToken string) (*jwt.Token, error) {
 	}
 	return token, nil
 }
+
+// what is ValidateToken?

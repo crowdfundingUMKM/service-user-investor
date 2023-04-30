@@ -187,7 +187,7 @@ func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 	// generate token
-	token, err := h.authService.GenerateToken(newUser.ID)
+	token, err := h.authService.GenerateToken(newUser.UnixID)
 	if err != nil {
 		if err != nil {
 			response := helper.APIResponse("Register account failed", http.StatusBadRequest, "error", nil)
@@ -224,7 +224,7 @@ func (h *userInvestorHandler) Login(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	token, err := h.authService.GenerateToken(loggedinUser.ID)
+	token, err := h.authService.GenerateToken(loggedinUser.UnixID)
 
 	if err != nil {
 		if err != nil {
