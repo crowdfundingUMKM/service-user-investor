@@ -8,7 +8,7 @@ import (
 )
 
 type Service interface {
-	GenerateToken(userID string) (string, error)
+	GenerateToken(userUnixID string) (string, error)
 	ValidateToken(token string) (*jwt.Token, error)
 }
 
@@ -22,9 +22,9 @@ func NewService() *jwtService {
 	return &jwtService{}
 }
 
-func (s *jwtService) GenerateToken(userID string) (string, error) {
+func (s *jwtService) GenerateToken(userUnixID string) (string, error) {
 	claim := jwt.MapClaims{}
-	claim["user_id"] = userID
+	claim["user_id"] = userUnixID
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
 
@@ -36,6 +36,7 @@ func (s *jwtService) GenerateToken(userID string) (string, error) {
 
 }
 
+// ValidateToken is used to validate token from user input and return the token if it is valid or return error if it is invalid
 func (s *jwtService) ValidateToken(endcodedToken string) (*jwt.Token, error) {
 	token, err := jwt.Parse(endcodedToken, func(token *jwt.Token) (interface{}, error) {
 		_, ok := token.Method.(*jwt.SigningMethodHMAC)
@@ -51,5 +52,3 @@ func (s *jwtService) ValidateToken(endcodedToken string) (*jwt.Token, error) {
 	}
 	return token, nil
 }
-
-// what is ValidateToken?

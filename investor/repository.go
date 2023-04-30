@@ -13,6 +13,7 @@ type Repository interface {
 	FindByUnixID(unix_id string) (User, error)
 	Update(user User) (User, error)
 	UpdateStatusAccount(user User) (User, error)
+	UpdateToken(user User) (User, error)
 }
 
 type repository struct {
@@ -87,3 +88,16 @@ func (r *repository) UpdateStatusAccount(user User) (User, error) {
 
 	return user, nil
 }
+
+// UpdateToken
+func (r *repository) UpdateToken(user User) (User, error) {
+	err := r.db.Model(&user).Update("token", user.Token).Error
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+//end of update token

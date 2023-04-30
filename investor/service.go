@@ -17,6 +17,8 @@ type Service interface {
 	ActivateAccountUser(input DeactiveUserInput) (bool, error)
 
 	GetUserByUnixID(UnixID string) (User, error)
+
+	SaveToken(UnixID string, Token string) (User, error)
 }
 
 type service struct {
@@ -68,8 +70,24 @@ func (s *service) Login(input LoginInput) (User, error) {
 	if err != nil {
 		return user, err
 	}
+
 	return user, nil
 }
+
+// save token to database
+func (s *service) SaveToken(UnixID string, Token string) (User, error) {
+	user, err := s.repository.FindByUnixID(UnixID)
+	user.Token = Token
+	_, err = s.repository.UpdateToken(user)
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+//end save token to database
 
 func (s *service) IsEmailAvailable(input CheckEmailInput) (bool, error) {
 	email := input.Email
