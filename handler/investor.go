@@ -50,7 +50,7 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 	}
 
 	id := os.Getenv("ADMIN_ID")
-	if c.Param("id") != id {
+	if c.Param("admin_id") != id {
 		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
 		c.JSON(http.StatusNotFound, response)
 		return
@@ -101,7 +101,7 @@ func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 	}
 	// check id admin
 	id := os.Getenv("ADMIN_ID")
-	if c.Param("id") == id {
+	if c.Param("admin_id") == id {
 		// get id user
 
 		// deactive user
@@ -139,7 +139,7 @@ func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 	}
 	// check id admin
 	id := os.Getenv("ADMIN_ID")
-	if c.Param("id") == id {
+	if c.Param("admin_id") == id {
 		// get id user
 
 		// deactive user
