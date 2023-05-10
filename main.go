@@ -57,7 +57,8 @@ func main() {
 	// errorr email_check
 
 	// end Rounting
-	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
-	router.Run(port)
+	// make var for env SERVICE_HOST and SERVICE_PORT
+	url := fmt.Sprintf("%s:%s", os.Getenv("SERVICE_HOST"), os.Getenv("SERVICE_PORT"))
+	router.Run(url)
 
 }
