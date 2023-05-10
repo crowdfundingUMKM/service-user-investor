@@ -55,12 +55,14 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 		c.JSON(http.StatusNotFound, response)
 		return
 	}
+
 	db_user := os.Getenv("DB_USER")
 	db_pass := os.Getenv("DB_PASS")
 	db_name := os.Getenv("DB_NAME")
 	db_port := os.Getenv("DB_PORT")
 	instance_host := os.Getenv("INSTANCE_HOST")
-	service_port := os.Getenv("PORT")
+	service_host := os.Getenv("SERVICE_HOST")
+	service_port := os.Getenv("SERVICE_PORT")
 	jwt_secret := os.Getenv("JWT_SECRET")
 	status_account := os.Getenv("STATUS_ACCOUNT")
 	admin_id := os.Getenv("ADMIN_ID")
@@ -71,6 +73,7 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 		"db_name":          db_name,
 		"db_port":          db_port,
 		"db_instance_host": instance_host,
+		"service_host":     service_host,
 		"service_port":     service_port,
 		"jwt_secret":       jwt_secret,
 		"status_account":   status_account,
