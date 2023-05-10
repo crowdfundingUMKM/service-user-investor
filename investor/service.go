@@ -15,6 +15,10 @@ type Service interface {
 	IsPhoneAvailable(input CheckPhoneInput) (bool, error)
 	DeactivateAccountUser(input DeactiveUserInput) (bool, error)
 	ActivateAccountUser(input DeactiveUserInput) (bool, error)
+
+	GetUserByUnixID(UnixID string) (User, error)
+
+	SaveToken(UnixID string, Token string) (User, error)
 }
 
 type service struct {
@@ -66,8 +70,24 @@ func (s *service) Login(input LoginInput) (User, error) {
 	if err != nil {
 		return user, err
 	}
+
 	return user, nil
 }
+
+// save token to database
+func (s *service) SaveToken(UnixID string, Token string) (User, error) {
+	user, err := s.repository.FindByUnixID(UnixID)
+	user.Token = Token
+	_, err = s.repository.UpdateToken(user)
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+//end save token to database
 
 func (s *service) IsEmailAvailable(input CheckEmailInput) (bool, error) {
 	email := input.Email
@@ -92,7 +112,7 @@ func (s *service) IsPhoneAvailable(input CheckPhoneInput) (bool, error) {
 		return false, err
 	}
 
-	if user.ID == 0 {
+	if user.UnixID == "" {
 		return true, nil
 	}
 
@@ -108,7 +128,7 @@ func (s *service) DeactivateAccountUser(input DeactiveUserInput) (bool, error) {
 		return false, err
 	}
 
-	if user.ID == 0 {
+	if user.UnixID == "" {
 		return true, nil
 	}
 	return true, nil
@@ -123,8 +143,21 @@ func (s *service) ActivateAccountUser(input DeactiveUserInput) (bool, error) {
 		return false, err
 	}
 
-	if user.ID == 0 {
+	if user.UnixID == "" {
 		return true, nil
 	}
 	return true, nil
+}
+
+func (s *service) GetUserByUnixID(UnixID string) (User, error) {
+	user, err := s.repository.FindByUnixID(UnixID)
+	if err != nil {
+		return user, err
+	}
+
+	if user.UnixID == "" {
+		return user, errors.New("No user found on with that ID")
+	}
+
+	return user, nil
 }

@@ -50,7 +50,7 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 	}
 
 	id := os.Getenv("ADMIN_ID")
-	if c.Param("id") != id {
+	if c.Param("admin_id") != id {
 		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
 		c.JSON(http.StatusNotFound, response)
 		return
@@ -101,7 +101,7 @@ func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 	}
 	// check id admin
 	id := os.Getenv("ADMIN_ID")
-	if c.Param("id") == id {
+	if c.Param("admin_id") == id {
 		// get id user
 
 		// deactive user
@@ -139,7 +139,7 @@ func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 	}
 	// check id admin
 	id := os.Getenv("ADMIN_ID")
-	if c.Param("id") == id {
+	if c.Param("admin_id") == id {
 		// get id user
 
 		// deactive user
@@ -187,7 +187,13 @@ func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
 		return
 	}
 	// generate token
-	token, err := h.authService.GenerateToken(newUser.ID)
+	token, err := h.authService.GenerateToken(newUser.UnixID)
+
+	// save token ke db
+	//
+	//
+	//
+	// end save token ke db
 	if err != nil {
 		if err != nil {
 			response := helper.APIResponse("Register account failed", http.StatusBadRequest, "error", nil)
@@ -224,7 +230,18 @@ func (h *userInvestorHandler) Login(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	token, err := h.authService.GenerateToken(loggedinUser.ID)
+	// generate token
+	token, err := h.authService.GenerateToken(loggedinUser.UnixID)
+
+	// save toke to database
+	_, err = h.userService.SaveToken(loggedinUser.UnixID, token)
+
+	if err != nil {
+		response := helper.APIResponse("Login failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	// end save token to database
 
 	if err != nil {
 		if err != nil {
@@ -234,17 +251,16 @@ func (h *userInvestorHandler) Login(c *gin.Context) {
 		}
 	}
 
-	formatter := investor.FormatterUser(loggedinUser, token)
-
-	response := helper.APIResponse("Succesfuly loggedin", http.StatusOK, "success", formatter)
-
 	// check role acvtive and not send massage your account deactive
-	if loggedinUser.StatusAccount == "deactive" {
+	if loggedinUser.StatusAccount == "Deactive" {
 		errorMessage := gin.H{"errors": "Your account is deactive by admin"}
 		response := helper.APIResponse("Login failed", http.StatusUnprocessableEntity, "error", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+	formatter := investor.FormatterUser(loggedinUser, token)
+
+	response := helper.APIResponse("Succesfuly loggedin", http.StatusOK, "success", formatter)
 
 	c.JSON(http.StatusOK, response)
 }

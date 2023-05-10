@@ -43,10 +43,10 @@ func main() {
 
 	// admin request
 	// api.GET("/admin/log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
-	api.GET("/admin/service_status/:id", userHandler.ServiceHealth)
+	api.GET("/admin/service_status/:admin_id", userHandler.ServiceHealth)
 	// make endpoint deactive user
-	api.POST("/admin/deactive_user/:id", userHandler.DeactiveUser)
-	api.POST("/admin/active_user/:id", userHandler.ActiveUser)
+	api.POST("/admin/deactive_user/:admin_id", userHandler.DeactiveUser)
+	api.POST("/admin/active_user/:admin_id", userHandler.ActiveUser)
 
 	// Rounting start for investor
 	api.POST("register_investor", userHandler.RegisterUser)
@@ -57,7 +57,8 @@ func main() {
 	// errorr email_check
 
 	// end Rounting
-	port := fmt.Sprintf(":%s", os.Getenv("PORT"))
-	router.Run(port)
+	// make var for env SERVICE_HOST and SERVICE_PORT
+	url := fmt.Sprintf("%s:%s", os.Getenv("SERVICE_HOST"), os.Getenv("SERVICE_PORT"))
+	router.Run(url)
 
 }
