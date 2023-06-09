@@ -49,10 +49,10 @@ func main() {
 	api.POST("/admin/active_user/:admin_id", userHandler.ActiveUser)
 
 	// Rounting start for investor
-	api.POST("register_investor", userHandler.RegisterUser)
-	api.POST("login_investor", userHandler.Login)
-	api.POST("email_check", userHandler.CheckEmailAvailability)
-	api.POST("phone_check", userHandler.CheckPhoneAvailability)
+	api.POST("/register_investor", userHandler.RegisterUser)
+	api.POST("/login_investor", userHandler.Login)
+	api.POST("/email_check", userHandler.CheckEmailAvailability)
+	api.POST("/phone_check", userHandler.CheckPhoneAvailability)
 
 	// errorr email_check
 
