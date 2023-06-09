@@ -31,6 +31,13 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, response)
 			return
 		}
+		// download with browser
+		if c.Query("download") == "true" {
+			c.Header("Content-Disposition", "attachment; filename=gin.log")
+			c.Data(http.StatusOK, "application/octet-stream", content)
+			return
+		}
+		// show in browser
 		c.String(http.StatusOK, string(content))
 	} else {
 		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
