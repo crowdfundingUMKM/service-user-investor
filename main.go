@@ -9,7 +9,6 @@ import (
 	"service-user-investor/database"
 	"service-user-investor/handler"
 	"service-user-investor/investor"
-	L "service-user-investor/log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -23,7 +22,7 @@ func main() {
 	}
 
 	// setup log
-	L.InitLog()
+	// L.InitLog()
 
 	// SETUP REPO
 	db := database.NewConnectionDB()
@@ -43,7 +42,7 @@ func main() {
 	api := router.Group("api/v1")
 
 	// admin request
-	api.GET("/admin/log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
+	// api.GET("/admin/log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
 	api.GET("/admin/service_status/:admin_id", userHandler.ServiceHealth)
 	// make endpoint deactive user
 	api.POST("/admin/deactive_user/:admin_id", userHandler.DeactiveUser)
