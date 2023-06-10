@@ -42,7 +42,7 @@ func authMiddleware(authService auth.Service, userService investor.Service) gin.
 			return
 		}
 
-		userUnixID := claim["user_id"].(string)
+		userUnixID := claim["unix_id"].(string)
 
 		user, err := userService.GetUserByUnixID(userUnixID)
 		if err != nil {
