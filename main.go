@@ -6,10 +6,12 @@ import (
 	"os"
 
 	"service-user-investor/auth"
+	"service-user-investor/config"
 	"service-user-investor/database"
 	"service-user-investor/handler"
 	"service-user-investor/investor"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -22,7 +24,7 @@ func main() {
 	}
 
 	// setup log
-	// L.InitLog()
+	// config.InitLog()
 
 	// SETUP REPO
 	db := database.NewConnectionDB()
@@ -39,6 +41,12 @@ func main() {
 
 	// RUN SERVICE
 	router := gin.Default()
+
+	// setup cors
+	corsConfig := config.InitCors()
+	router.Use(cors.New(corsConfig))
+
+	// group api
 	api := router.Group("api/v1")
 
 	// admin request

@@ -13,6 +13,11 @@
     - [ ] Auth middleware admin, Uri(unix_id on env), 
 - [x] GET Service status
 
+- [ ] POST deactive admin
+    - [ ] with midlleware auth admin
+- [ ] POST active admin
+    - [ ] with midlleware auth admin
+
 - [x] POST Register
     - [x] POST Check email
     - [x] POST Check Phone
