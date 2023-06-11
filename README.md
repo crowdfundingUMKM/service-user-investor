@@ -4,8 +4,13 @@
 - Admin req
 
 - [ ]CORS CONFIG
+- [] Fix config: log and cors
+
+- [] Setup Middleware Auth user(unix_id)
+- [] Setup Middleware Auth admin(unix_id with os.Getenv("ADMIN_ID"))
 
 - [x] ~GET Log service
+    - [ ] Auth middleware admin, Uri(unix_id on env), 
 - [x] GET Service status
 
 - [x] POST Register
@@ -15,20 +20,22 @@
 
 
 - Dashboard
+
+- [x] PUT Update User profile admin
+    - Update data can be empty content
+    - update with name, email, phone
+- [x] GET User Profile
+    - with middleware on token
+
 - [ ] GET User Profile
 - [ ] POST Update_avatar
 - [ ] PUT Update User profile
 
 - [ ] POST Logout
+    - Delete token 
 
-# Info
+### CI/CD Github Actions
 
-Make database
-
-`migrate create -ext sql -dir database/migrations nama_file_migration`
-
-Run Migrate
-
-```
-migrate -database "mysql://root@tcp(127.0.0.1:3306)/service_user_investor" -path database/migrations up
-```
+- [] ~CI/CD Github Actions
+- [] Push to Docker Hub
+- [] Push to GCP registry
