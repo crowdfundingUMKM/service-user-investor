@@ -21,10 +21,10 @@
 
 - Dashboard
 
-- [x] PUT Update User profile admin
+- [ ] PUT Update User profile admin
     - Update data can be empty content
     - update with name, email, phone
-- [x] GET User Profile
+- [ ] GET User Profile
     - with middleware on token
 
 - [ ] GET User Profile
