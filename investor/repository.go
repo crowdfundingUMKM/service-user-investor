@@ -80,7 +80,12 @@ func (r *repository) Update(user User) (User, error) {
 
 // make update just row status_account
 func (r *repository) UpdateStatusAccount(user User) (User, error) {
-	err := r.db.Model(&user).Update("status_account", user.StatusAccount).Error
+	// update status_account and update_by_admin
+
+	err := r.db.Model(&user).Updates(User{
+		StatusAccount: user.StatusAccount,
+		UpdateByAdmin: user.UpdateByAdmin,
+	}).Error
 
 	if err != nil {
 		return user, err

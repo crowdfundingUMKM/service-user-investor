@@ -1,7 +1,9 @@
 package investor
 
 import (
+	"encoding/json"
 	"errors"
+	"net/http"
 	"os"
 
 	"github.com/google/uuid"
@@ -13,7 +15,10 @@ type Service interface {
 	Login(input LoginInput) (User, error)
 	IsEmailAvailable(input CheckEmailInput) (bool, error)
 	IsPhoneAvailable(input CheckPhoneInput) (bool, error)
-	DeactivateAccountUser(input DeactiveUserInput) (bool, error)
+
+	DeactivateAccountUser(input DeactiveUserInput, adminId string) (bool, error)
+	GetAdminId(input AdminIdInput) (string, error)
+
 	ActivateAccountUser(input DeactiveUserInput) (bool, error)
 
 	GetUserByUnixID(UnixID string) (User, error)
@@ -27,6 +32,38 @@ type service struct {
 
 func NewService(repository Repository) *service {
 	return &service{repository}
+}
+
+func (s *service) GetAdminId(input AdminIdInput) (string, error) {
+	adminID := UserAdmin{}
+	adminID.UnixAdmin = input.UnixID
+	// fetch get /getAdminID from service api
+	serviceAdmin := os.Getenv("SERVICE_ADMIN")
+	// if service admin is empty return error
+	if serviceAdmin == "" {
+		return adminID.UnixAdmin, errors.New("Service admin is empty")
+	}
+	resp, err := http.Get(serviceAdmin + "/api/v1/getAdminID/" + adminID.UnixAdmin)
+	if err != nil {
+		return adminID.UnixAdmin, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return adminID.UnixAdmin, errors.New("Failed to get admin status")
+	}
+	err = json.NewDecoder(resp.Body).Decode(&adminID)
+	if err != nil {
+		return adminID.UnixAdmin, err
+	}
+
+	if adminID.StatusAccountAdmin == "deactive" {
+		return adminID.UnixAdmin, errors.New("Admin account is deactive")
+	} else if adminID.StatusAccountAdmin == "active" {
+		return adminID.UnixAdmin, nil
+	} else {
+		return adminID.UnixAdmin, errors.New("Invalid admin status")
+	}
 }
 
 func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
@@ -119,9 +156,17 @@ func (s *service) IsPhoneAvailable(input CheckPhoneInput) (bool, error) {
 	return false, nil
 }
 
-func (s *service) DeactivateAccountUser(input DeactiveUserInput) (bool, error) {
+func (s *service) DeactivateAccountUser(input DeactiveUserInput, adminId string) (bool, error) {
+	// fin user by unix id
 	user, err := s.repository.FindByUnixID(input.UnixID)
-	user.StatusAccount = "Deactive"
+	if err != nil {
+		return false, err
+	}
+	if adminId == "" {
+		return false, errors.New("Admin ID is empty")
+	}
+	user.UpdateByAdmin = adminId
+	user.StatusAccount = "deactive"
 	_, err = s.repository.UpdateStatusAccount(user)
 
 	if err != nil {
@@ -136,7 +181,7 @@ func (s *service) DeactivateAccountUser(input DeactiveUserInput) (bool, error) {
 
 func (s *service) ActivateAccountUser(input DeactiveUserInput) (bool, error) {
 	user, err := s.repository.FindByUnixID(input.UnixID)
-	user.StatusAccount = "Active"
+	user.StatusAccount = "active"
 	_, err = s.repository.UpdateStatusAccount(user)
 
 	if err != nil {

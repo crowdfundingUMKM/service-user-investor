@@ -13,8 +13,8 @@
     - [ ] Auth middleware admin, Uri(unix_id on env), 
 - [x] GET Service status
 
-- [ ] POST deactive admin
-    - [ ] with midlleware auth admin
+- [x] POST deactive user by admin
+    - [x] with uri unix_id admin, use fetch get to service-user-investor and save to db
 - [ ] POST active admin
     - [ ] with midlleware auth admin
 

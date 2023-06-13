@@ -14,6 +14,7 @@ type User struct {
 	AvatarFileName string
 	StatusAccount  string
 	Token          string
+	UpdateByAdmin  string
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 }
