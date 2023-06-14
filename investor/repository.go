@@ -78,7 +78,7 @@ func (r *repository) Update(user User) (User, error) {
 	return user, nil
 }
 
-// make update just row status_account
+// make update just row status_account admin request
 func (r *repository) UpdateStatusAccount(user User) (User, error) {
 	// update status_account and update_by_admin
 
