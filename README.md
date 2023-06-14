@@ -3,8 +3,8 @@
 
 - Admin req
 
-- [ ]CORS CONFIG
-- [] Fix config: log and cors
+- [x]CORS CONFIG
+- [x] Fix config: log and cors
 
 - [] Setup Middleware Auth user(unix_id)
 - [] Setup Middleware Auth admin(unix_id with os.Getenv("ADMIN_ID"))
