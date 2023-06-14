@@ -20,7 +20,7 @@ type Service interface {
 	DeactivateAccountUser(input DeactiveUserInput, adminId string) (bool, error)
 	GetAdminId(input AdminIdInput) (string, error)
 
-	ActivateAccountUser(input DeactiveUserInput) (bool, error)
+	ActivateAccountUser(input DeactiveUserInput, adminId string) (bool, error)
 
 	GetUserByUnixID(UnixID string) (User, error)
 
@@ -184,8 +184,16 @@ func (s *service) DeactivateAccountUser(input DeactiveUserInput, adminId string)
 	return true, nil
 }
 
-func (s *service) ActivateAccountUser(input DeactiveUserInput) (bool, error) {
+func (s *service) ActivateAccountUser(input DeactiveUserInput, adminId string) (bool, error) {
+	// fin user by unix id
 	user, err := s.repository.FindByUnixID(input.UnixID)
+	if err != nil {
+		return false, err
+	}
+	if adminId == "" {
+		return false, errors.New("Admin ID is empty")
+	}
+	user.UpdateByAdmin = adminId
 	user.StatusAccount = "active"
 	_, err = s.repository.UpdateStatusAccount(user)
 

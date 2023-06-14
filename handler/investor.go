@@ -99,7 +99,7 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 // deactive account
 func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 	var input investor.DeactiveUserInput
-
+	// check input from user
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
 		errors := helper.FormatValidationError(err)
@@ -150,7 +150,7 @@ func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 
 func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 	var input investor.DeactiveUserInput
-
+	// check input from user
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
 		errors := helper.FormatValidationError(err)
@@ -160,16 +160,29 @@ func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
+
+	// cheack id from get param and fetch data from service admin to check id admin and status account admin
+	// var adminInput investor.AdminIdInput
+	adminID := c.Param("admin_id")
+	adminInput := investor.AdminIdInput{UnixID: adminID}
+	getAdminValueId, err := h.userService.GetAdminId(adminInput)
+
+	if err != nil {
+		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
 	// check id admin
-	id := os.Getenv("ADMIN_ID")
-	if c.Param("admin_id") == id {
+	// adminId := getAdminValueId
+	if c.Param("admin_id") == getAdminValueId {
 		// get id user
 
 		// deactive user
-		active, err := h.userService.ActivateAccountUser(input)
+		deactive, err := h.userService.ActivateAccountUser(input, getAdminValueId)
 
 		data := gin.H{
-			"success_deactive": active,
+			"success_active": deactive,
 		}
 
 		if err != nil {
