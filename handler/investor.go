@@ -117,7 +117,7 @@ func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 	getAdminValueId, err := h.userService.GetAdminId(adminInput)
 
 	if err != nil {
-		response := helper.APIResponse("Failed to get admin id", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}

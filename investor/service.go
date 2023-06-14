@@ -5,6 +5,7 @@ import (
 	"errors"
 	"net/http"
 	"os"
+	"service-user-investor/helper"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -35,7 +36,7 @@ func NewService(repository Repository) *service {
 }
 
 func (s *service) GetAdminId(input AdminIdInput) (string, error) {
-	adminID := UserAdmin{}
+	adminID := helper.UserAdmin{}
 	adminID.UnixAdmin = input.UnixID
 	// fetch get /getAdminID from service api
 	serviceAdmin := os.Getenv("SERVICE_ADMIN")
@@ -52,17 +53,21 @@ func (s *service) GetAdminId(input AdminIdInput) (string, error) {
 	if resp.StatusCode != http.StatusOK {
 		return adminID.UnixAdmin, errors.New("Failed to get admin status")
 	}
-	err = json.NewDecoder(resp.Body).Decode(&adminID)
+
+	var response helper.AdminStatusResponse
+	err = json.NewDecoder(resp.Body).Decode(&response)
 	if err != nil {
-		return adminID.UnixAdmin, err
+		return "", err
 	}
 
-	if adminID.StatusAccountAdmin == "deactive" {
-		return adminID.UnixAdmin, errors.New("Admin account is deactive")
-	} else if adminID.StatusAccountAdmin == "active" {
+	if response.Meta.Code != 200 {
+		return "", errors.New(response.Meta.Message)
+	} else if response.Data.StatusAccountAdmin == "deactive" {
+		return "", errors.New("Admin account is deactive")
+	} else if response.Data.StatusAccountAdmin == "active" {
 		return adminID.UnixAdmin, nil
 	} else {
-		return adminID.UnixAdmin, errors.New("Invalid admin status")
+		return "", errors.New("Invalid admin status")
 	}
 }
 

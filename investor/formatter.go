@@ -22,8 +22,3 @@ func FormatterUser(user User, token string) UserInvestorFormatter {
 	}
 	return formatter
 }
-
-type UserAdmin struct {
-	UnixAdmin          string `json:"unix_admin"`
-	StatusAccountAdmin string `json:"status_account_admin"`
-}

@@ -40,3 +40,14 @@ func FormatValidationError(err error) []string {
 
 	return errors
 }
+
+// Amin Request
+type UserAdmin struct {
+	UnixAdmin          string `json:"unix_admin"`
+	StatusAccountAdmin string `json:"status_account_admin"`
+}
+
+type AdminStatusResponse struct {
+	Meta Meta      `json:"meta"`
+	Data UserAdmin `json:"data"`
+}
