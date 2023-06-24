@@ -44,7 +44,7 @@ func (s *service) GetAdminId(input AdminIdInput) (string, error) {
 	if serviceAdmin == "" {
 		return adminID.UnixAdmin, errors.New("Service admin is empty")
 	}
-	resp, err := http.Get(serviceAdmin + "/api/v1/getAdminID/" + adminID.UnixAdmin)
+	resp, err := http.Get(serviceAdmin + "/api/v1/admin/getAdminID/" + adminID.UnixAdmin)
 	if err != nil {
 		return adminID.UnixAdmin, err
 	}
