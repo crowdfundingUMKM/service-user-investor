@@ -27,7 +27,3 @@ type DeactiveUserInput struct {
 type ActiveUserInput struct {
 	UnixID string `json:"unix_id" binding:"required"`
 }
-
-type AdminIdInput struct {
-	UnixID string `uri:"admin_id" binding:"required"`
-}

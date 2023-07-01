@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	api_admin "service-user-investor/api/admin"
 	"service-user-investor/auth"
 	"service-user-investor/helper"
 	"service-user-investor/investor"
@@ -113,8 +114,8 @@ func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 	// cheack id from get param and fetch data from service admin to check id admin and status account admin
 	// var adminInput investor.AdminIdInput
 	adminID := c.Param("admin_id")
-	adminInput := investor.AdminIdInput{UnixID: adminID}
-	getAdminValueId, err := h.userService.GetAdminId(adminInput)
+	adminInput := api_admin.AdminIdInput{UnixID: adminID}
+	getAdminValueId, err := api_admin.GetAdminId(adminInput)
 
 	if err != nil {
 		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
@@ -164,8 +165,8 @@ func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 	// cheack id from get param and fetch data from service admin to check id admin and status account admin
 	// var adminInput investor.AdminIdInput
 	adminID := c.Param("admin_id")
-	adminInput := investor.AdminIdInput{UnixID: adminID}
-	getAdminValueId, err := h.userService.GetAdminId(adminInput)
+	adminInput := api_admin.AdminIdInput{UnixID: adminID}
+	getAdminValueId, err := api_admin.GetAdminId(adminInput)
 
 	if err != nil {
 		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
