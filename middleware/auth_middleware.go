@@ -3,15 +3,15 @@ package middleware
 import (
 	"net/http"
 	"service-user-investor/auth"
+	"service-user-investor/core"
 	"service-user-investor/helper"
-	"service-user-investor/investor"
 	"strings"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
-func AuthMiddleware(authService auth.Service, userService investor.Service) gin.HandlerFunc {
+func AuthMiddleware(authService auth.Service, userService core.Service) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 

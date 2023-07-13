@@ -1,4 +1,4 @@
-package investor
+package core
 
 import (
 	"gorm.io/gorm"

@@ -1,4 +1,4 @@
-package investor
+package core
 
 type UserInvestorFormatter struct {
 	ID            int    `json:"id"`

@@ -6,19 +6,19 @@ import (
 	"os"
 	api_admin "service-user-investor/api/admin"
 	"service-user-investor/auth"
+	"service-user-investor/core"
 	"service-user-investor/helper"
-	"service-user-investor/investor"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
 type userInvestorHandler struct {
-	userService investor.Service
+	userService core.Service
 	authService auth.Service
 }
 
-func NewUserHandler(userService investor.Service, authService auth.Service) *userInvestorHandler {
+func NewUserHandler(userService core.Service, authService auth.Service) *userInvestorHandler {
 	return &userInvestorHandler{userService, authService}
 }
 
@@ -99,7 +99,7 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 
 // deactive account
 func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
-	var input investor.DeactiveUserInput
+	var input core.DeactiveUserInput
 	// check input from user
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -150,7 +150,7 @@ func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 }
 
 func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
-	var input investor.DeactiveUserInput
+	var input core.DeactiveUserInput
 	// check input from user
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -205,7 +205,7 @@ func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
 	// map input dari user ke struct RegisterUserInput
 	// struct di atas kita passing sebagai parameter service
 
-	var input investor.RegisterUserInput
+	var input core.RegisterUserInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -227,9 +227,6 @@ func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
 	token, err := h.authService.GenerateToken(newUser.UnixID)
 
 	// save token ke db
-	//
-	//
-	//
 	// end save token ke db
 	if err != nil {
 		if err != nil {
@@ -239,16 +236,34 @@ func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
 		}
 	}
 
-	formatter := investor.FormatterUser(newUser, token)
+	formatter := core.FormatterUser(newUser, token)
 
-	response := helper.APIResponse("Account has been registered", http.StatusOK, "success", formatter)
+	if formatter.StatusAccount == "active" {
+		_, err = h.userService.SaveToken(newUser.UnixID, token)
+
+		if err != nil {
+			response := helper.APIResponse("Register account failed", http.StatusBadRequest, "error", nil)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
+
+		response := helper.APIResponse("Account has been registered and active", http.StatusOK, "success", formatter)
+		c.JSON(http.StatusOK, response)
+		return
+	}
+
+	data := gin.H{
+		"status": "Account has been registered, but you must wait admin to active your account",
+	}
+
+	response := helper.APIResponse("Account has been registered but you must wait admin or review to active your account", http.StatusOK, "success", data)
 
 	c.JSON(http.StatusOK, response)
 }
 
 func (h *userInvestorHandler) Login(c *gin.Context) {
 
-	var input investor.LoginInput
+	var input core.LoginInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -289,13 +304,13 @@ func (h *userInvestorHandler) Login(c *gin.Context) {
 	}
 
 	// check role acvtive and not send massage your account deactive
-	if loggedinUser.StatusAccount == "Deactive" {
+	if loggedinUser.StatusAccount == "deactive" {
 		errorMessage := gin.H{"errors": "Your account is deactive by admin"}
 		response := helper.APIResponse("Login failed", http.StatusUnprocessableEntity, "error", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
-	formatter := investor.FormatterUser(loggedinUser, token)
+	formatter := core.FormatterUser(loggedinUser, token)
 
 	response := helper.APIResponse("Succesfuly loggedin", http.StatusOK, "success", formatter)
 
@@ -303,7 +318,7 @@ func (h *userInvestorHandler) Login(c *gin.Context) {
 }
 
 func (h *userInvestorHandler) CheckEmailAvailability(c *gin.Context) {
-	var input investor.CheckEmailInput
+	var input core.CheckEmailInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {
@@ -338,7 +353,7 @@ func (h *userInvestorHandler) CheckEmailAvailability(c *gin.Context) {
 }
 
 func (h *userInvestorHandler) CheckPhoneAvailability(c *gin.Context) {
-	var input investor.CheckPhoneInput
+	var input core.CheckPhoneInput
 
 	err := c.ShouldBindJSON(&input)
 	if err != nil {

@@ -7,9 +7,9 @@ import (
 
 	"service-user-investor/auth"
 	"service-user-investor/config"
+	"service-user-investor/core"
 	"service-user-investor/database"
 	"service-user-investor/handler"
-	"service-user-investor/investor"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -28,10 +28,10 @@ func main() {
 
 	// SETUP REPO
 	db := database.NewConnectionDB()
-	userInvestorRepository := investor.NewRepository(db)
+	userInvestorRepository := core.NewRepository(db)
 
 	// SETUP SERVICE
-	userInvestorService := investor.NewService(userInvestorRepository)
+	userInvestorService := core.NewService(userInvestorRepository)
 	authService := auth.NewService()
 
 	// setup handler
