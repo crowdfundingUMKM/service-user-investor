@@ -9,6 +9,13 @@ import (
 )
 
 func GetAdminId(input AdminIdInput) (string, error) {
+	// check service admin
+
+	err := CheckServiceAdmin()
+	if err != nil {
+		return "", err
+	}
+
 	adminID := helper.UserAdmin{}
 	adminID.UnixAdmin = input.UnixID
 	// fetch get /getAdminID from service api
