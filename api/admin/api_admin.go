@@ -22,7 +22,7 @@ func GetAdminId(input AdminIdInput) (string, error) {
 	serviceAdmin := os.Getenv("SERVICE_ADMIN")
 	// if service admin is empty return error
 	if serviceAdmin == "" {
-		return adminID.UnixAdmin, errors.New("Service admin is empty")
+		return adminID.UnixAdmin, errors.New("service admin is empty")
 	}
 	resp, err := http.Get(serviceAdmin + "/api/v1/admin/getAdminID/" + adminID.UnixAdmin)
 	if err != nil {
@@ -31,7 +31,7 @@ func GetAdminId(input AdminIdInput) (string, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		return adminID.UnixAdmin, errors.New("Failed to get admin status or admin not found")
+		return adminID.UnixAdmin, errors.New("failed to get admin status or admin not found")
 	}
 
 	var response helper.AdminStatusResponse
@@ -43,10 +43,10 @@ func GetAdminId(input AdminIdInput) (string, error) {
 	if response.Meta.Code != 200 {
 		return "", errors.New(response.Meta.Message)
 	} else if response.Data.StatusAccountAdmin == "deactive" {
-		return "", errors.New("Admin account is deactive")
+		return "", errors.New("admin account is deactive")
 	} else if response.Data.StatusAccountAdmin == "active" {
 		return adminID.UnixAdmin, nil
 	} else {
-		return "", errors.New("Invalid admin status")
+		return "", errors.New("invalid admin status")
 	}
 }
