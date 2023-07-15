@@ -80,6 +80,8 @@ func main() {
 
 	//make update image profile user by unix_id
 
+	//make service health for investor
+
 	// end Rounting
 	// make env SERVICE_HOST and SERVICE_PORT
 	url := fmt.Sprintf("%s:%s", os.Getenv("SERVICE_HOST"), os.Getenv("SERVICE_PORT"))

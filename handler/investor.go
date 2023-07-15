@@ -25,7 +25,7 @@ func NewUserHandler(userService core.Service, authService auth.Service) *userInv
 func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 	// check id admin
 	id := os.Getenv("ADMIN_ID")
-	if c.Param("id") == id {
+	if c.Param("admin_id") == id {
 		content, err := ioutil.ReadFile("./log/gin.log")
 		if err != nil {
 			response := helper.APIResponse("Failed to get log", http.StatusBadRequest, "error", nil)
@@ -57,36 +57,39 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 		return
 	}
 
-	id := os.Getenv("ADMIN_ID")
-	if c.Param("admin_id") != id {
+	adminID := c.Param("admin_id")
+	adminInput := api_admin.AdminIdInput{UnixID: adminID}
+	getAdminValueId, err := api_admin.GetAdminId(adminInput)
+
+	if err != nil {
+		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	if c.Param("admin_id") != getAdminValueId {
 		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
 		c.JSON(http.StatusNotFound, response)
 		return
 	}
 
-	db_user := os.Getenv("DB_USER")
-	db_pass := os.Getenv("DB_PASS")
-	db_name := os.Getenv("DB_NAME")
-	db_port := os.Getenv("DB_PORT")
-	instance_host := os.Getenv("INSTANCE_HOST")
-	service_host := os.Getenv("SERVICE_HOST")
-	service_port := os.Getenv("SERVICE_PORT")
-	jwt_secret := os.Getenv("JWT_SECRET")
-	status_account := os.Getenv("STATUS_ACCOUNT")
-	admin_id := os.Getenv("ADMIN_ID")
-
-	data := map[string]interface{}{
-		"db_user":          db_user,
-		"db_pass":          db_pass,
-		"db_name":          db_name,
-		"db_port":          db_port,
-		"db_instance_host": instance_host,
-		"service_host":     service_host,
-		"service_port":     service_port,
-		"jwt_secret":       jwt_secret,
-		"status_account":   status_account,
-		"admin_id":         admin_id,
+	envVars := []string{
+		"ADMIN_ID",
+		"DB_USER",
+		"DB_PASS",
+		"DB_NAME",
+		"DB_PORT",
+		"INSTANCE_HOST",
+		"SERVICE_HOST",
+		"SERVICE_PORT",
+		"JWT_SECRET",
+		"STATUS_ACCOUNT",
 	}
+
+	data := make(map[string]interface{})
+	for _, key := range envVars {
+		data[key] = os.Getenv(key)
+	}
+
 	errService := c.Errors
 	if errService != nil {
 		response := helper.APIResponse("Service investor is not running", http.StatusInternalServerError, "error", nil)
