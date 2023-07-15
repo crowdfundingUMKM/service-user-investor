@@ -69,12 +69,12 @@ func main() {
 	// starting endpoint
 	//make service health for investor
 	api.GET("/service_start", userHandler.ServiceStart)
+	api.GET("/service_check", middleware.AuthMiddleware(authService, userInvestorService), userHandler.ServiceCheckDB)
 	api.POST("/register_investor", userHandler.RegisterUser)
 	api.POST("/login_investor", userHandler.Login)
 	api.POST("/email_check", userHandler.CheckEmailAvailability)
 	api.POST("/phone_check", userHandler.CheckPhoneAvailability)
 
-	api.GET("/service_check", middleware.AuthMiddleware(authService, userInvestorService), userHandler.ServiceCheckDB)
 	//make get user by auth
 	api.GET("/get_user", middleware.AuthMiddleware(authService, userInvestorService), userHandler.GetUser)
 
