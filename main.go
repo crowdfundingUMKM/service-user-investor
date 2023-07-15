@@ -50,11 +50,19 @@ func main() {
 	api := router.Group("api/v1")
 
 	// admin request
-	// api.GET("/admin/log_service_toAdmin/:id", userHandler.GetLogtoAdmin)
+	api.GET("/admin/log_service_toAdmin/:admin_id", userHandler.GetLogtoAdmin)
 	api.GET("/admin/service_status/:admin_id", userHandler.ServiceHealth)
 	// make endpoint deactive user
 	api.POST("/admin/deactive_user/:admin_id", userHandler.DeactiveUser)
 	api.POST("/admin/active_user/:admin_id", userHandler.ActiveUser)
+
+	// make endpoint get all user by admin
+
+	// make update password by admin
+
+	// make delete user by admin
+
+	// make
 
 	// Rounting start for investor
 	api.POST("/register_investor", userHandler.RegisterUser)
@@ -62,7 +70,15 @@ func main() {
 	api.POST("/email_check", userHandler.CheckEmailAvailability)
 	api.POST("/phone_check", userHandler.CheckPhoneAvailability)
 
-	// errorr email_check
+	//make get user by auth
+
+	//make update profile user by unix_id
+
+	//make update password user by unix_id
+
+	//make create image profile user by unix_id
+
+	//make update image profile user by unix_id
 
 	// end Rounting
 	// make env SERVICE_HOST and SERVICE_PORT
