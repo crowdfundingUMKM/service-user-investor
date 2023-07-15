@@ -4,21 +4,19 @@
  - using env:	export GIN_MODE=release
  - using code:	gin.SetMode(gin.ReleaseMode)
 
-[GIN-debug] GET    /api/v1/admin/log_service_toAdmin/:id --> service-user-investor/handler.(*userInvestorHandler).GetLogtoAdmin-fm (3 handlers)
-[GIN-debug] GET    /api/v1/admin/service_status/:admin_id --> service-user-investor/handler.(*userInvestorHandler).ServiceHealth-fm (3 handlers)
-[GIN-debug] POST   /api/v1/admin/deactive_user/:admin_id --> service-user-investor/handler.(*userInvestorHandler).DeactiveUser-fm (3 handlers)
-[GIN-debug] POST   /api/v1/admin/active_user/:admin_id --> service-user-investor/handler.(*userInvestorHandler).ActiveUser-fm (3 handlers)
-[GIN-debug] POST   /api/v1/register_investor --> service-user-investor/handler.(*userInvestorHandler).RegisterUser-fm (3 handlers)
-[GIN-debug] POST   /api/v1/login_investor    --> service-user-investor/handler.(*userInvestorHandler).Login-fm (3 handlers)
-[GIN-debug] POST   /api/v1/email_check       --> service-user-investor/handler.(*userInvestorHandler).CheckEmailAvailability-fm (3 handlers)
-[GIN-debug] POST   /api/v1/phone_check       --> service-user-investor/handler.(*userInvestorHandler).CheckPhoneAvailability-fm (3 handlers)
+[GIN-debug] GET    /api/v1/admin/log_service_toAdmin/:admin_id --> service-user-investor/handler.(*userInvestorHandler).GetLogtoAdmin-fm (4 handlers)
+[GIN-debug] GET    /api/v1/admin/service_status/:admin_id --> service-user-investor/handler.(*userInvestorHandler).ServiceHealth-fm (4 handlers)
+[GIN-debug] POST   /api/v1/admin/deactive_user/:admin_id --> service-user-investor/handler.(*userInvestorHandler).DeactiveUser-fm (4 handlers)
+[GIN-debug] POST   /api/v1/admin/active_user/:admin_id --> service-user-investor/handler.(*userInvestorHandler).ActiveUser-fm (4 handlers)
+[GIN-debug] GET    /api/v1/service_start     --> service-user-investor/handler.(*userInvestorHandler).ServiceStart-fm (4 handlers)
+[GIN-debug] GET    /api/v1/service_check     --> service-user-investor/handler.(*userInvestorHandler).ServiceCheckDB-fm (5 handlers)
+[GIN-debug] POST   /api/v1/register_investor --> service-user-investor/handler.(*userInvestorHandler).RegisterUser-fm (4 handlers)
+[GIN-debug] POST   /api/v1/login_investor    --> service-user-investor/handler.(*userInvestorHandler).Login-fm (4 handlers)
+[GIN-debug] POST   /api/v1/email_check       --> service-user-investor/handler.(*userInvestorHandler).CheckEmailAvailability-fm (4 handlers)
+[GIN-debug] POST   /api/v1/phone_check       --> service-user-investor/handler.(*userInvestorHandler).CheckPhoneAvailability-fm (4 handlers)
+[GIN-debug] GET    /api/v1/get_user          --> service-user-investor/handler.(*userInvestorHandler).GetUser-fm (5 handlers)
+[GIN-debug] PUT    /api/v1/update_profile/:unix_id --> service-user-investor/handler.(*userInvestorHandler).UpdateUser-fm (5 handlers)
+[GIN-debug] POST   /api/v1/logout_investor   --> service-user-investor/handler.(*userInvestorHandler).LogoutUser-fm (5 handlers)
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on localhost:8082
-[GIN] 2023/06/10 - 01:32:58 | 200 |      3.1709ms |       127.0.0.1 | POST     "/api/v1/login_investor"
-[GIN] 2023/06/10 - 01:33:06 | 200 |      4.8457ms |       127.0.0.1 | GET      "/api/v1/admin/log_service_toAdmin/a1b23d3a1b"
-[GIN] 2023/06/10 - 01:33:19 | 404 |            0s |       127.0.0.1 | GET      "/api/v1/log_service_admin/7d4aa4f2-90a"
-[GIN] 2023/06/10 - 01:33:19 | 404 |            0s |       127.0.0.1 | GET      "/favicon.ico"
-[GIN] 2023/06/10 - 01:33:33 | 404 |       754.1µs |       127.0.0.1 | GET      "/api/v1/admin/log_service_toAdmin/7d4aa4f2-90a"
-[GIN] 2023/06/10 - 01:33:47 | 200 |      5.6602ms |       127.0.0.1 | GET      "/api/v1/admin/log_service_toAdmin/a1b23d3a1b"
-[GIN] 2023/06/10 - 01:33:55 | 200 |      4.2812ms |       127.0.0.1 | GET      "/api/v1/admin/log_service_toAdmin/a1b23d3a1b?download=true"

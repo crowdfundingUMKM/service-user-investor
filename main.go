@@ -59,6 +59,8 @@ func main() {
 
 	// make endpoint get all user by admin
 
+	// make endpoint update user by admin
+
 	// make update password by admin
 
 	// make delete user by admin
