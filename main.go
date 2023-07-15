@@ -82,6 +82,10 @@ func main() {
 
 	//make update image profile user by unix_id
 
+	//make delete image profile user by unix_id
+
+	// make logout user by unix_id
+
 	//make service health for investor
 
 	// end Rounting

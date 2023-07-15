@@ -14,9 +14,12 @@
 - [x] GET Service status
 
 - [x] POST deactive user by admin
-    - [x] with uri unix_id admin, use fetch get to service-user-investor and save to db
-- [ ] POST active admin
     - [ ] with midlleware auth admin
+    - [x] with uri unix_id admin, use fetch get to service-user-investor and save to db
+- [x] POST active admin
+    - [ ] with midlleware auth admin
+    - [x] with uri unix_id admin, use fetch get to service-user-investor and save to db
+
 
 - [x] POST Register
     - [x] POST Check email
@@ -28,13 +31,13 @@
 
 - [ ] PUT Update User profile admin
     - Update data can be empty content
-    - update with name, email, phone
+    - update with name, phone, Bio User
 - [ ] GET User Profile
     - with middleware on token
 
 - [ ] GET User Profile
-- [ ] POST Update_avatar
 - [ ] PUT Update User profile
+- [ ] POST Update_avatar
 
 - [ ] POST Logout
     - Delete token 
