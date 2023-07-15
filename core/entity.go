@@ -11,6 +11,7 @@ type User struct {
 	Email          string
 	Phone          string
 	PasswordHash   string
+	BioUser        string
 	AvatarFileName string
 	StatusAccount  string
 	Token          string

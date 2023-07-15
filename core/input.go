@@ -27,3 +27,13 @@ type DeactiveUserInput struct {
 type ActiveUserInput struct {
 	UnixID string `json:"unix_id" binding:"required"`
 }
+
+type GetUserIdInput struct {
+	UnixID string `uri:"unix_id" binding:"required"`
+}
+
+type UpdateUserInput struct {
+	Name    string `json:"name" binding:"required"`
+	Phone   string `json:"phone" binding:"required"`
+	BioUser string `json:"bio_user" binding:"required"`
+}

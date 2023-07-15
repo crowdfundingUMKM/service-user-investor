@@ -10,6 +10,7 @@ import (
 	"service-user-investor/core"
 	"service-user-investor/database"
 	"service-user-investor/handler"
+	"service-user-investor/middleware"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -73,6 +74,7 @@ func main() {
 	//make get user by auth
 
 	//make update profile user by unix_id
+	api.PUT("/update_profile/:unix_id", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UpdateUser)
 
 	//make update password user by unix_id
 

@@ -19,6 +19,7 @@ type Service interface {
 	ActivateAccountUser(input DeactiveUserInput, adminId string) (bool, error)
 
 	GetUserByUnixID(UnixID string) (User, error)
+	UpdateUserByUnixID(UnixID string, input UpdateUserInput) (User, error)
 
 	SaveToken(UnixID string, Token string) (User, error)
 }
@@ -178,4 +179,26 @@ func (s *service) GetUserByUnixID(UnixID string) (User, error) {
 	}
 
 	return user, nil
+}
+
+func (s *service) UpdateUserByUnixID(UnixID string, input UpdateUserInput) (User, error) {
+	user, err := s.repository.FindByUnixID(UnixID)
+	if err != nil {
+		return user, err
+	}
+
+	if user.UnixID == "" {
+		return user, errors.New("No user found on with that ID")
+	}
+
+	user.Name = input.Name
+	user.Phone = input.Phone
+	user.BioUser = input.BioUser
+
+	updatedUser, err := s.repository.Update(user)
+	if err != nil {
+		return updatedUser, err
+	}
+
+	return updatedUser, nil
 }
