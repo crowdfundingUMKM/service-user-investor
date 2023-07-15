@@ -391,6 +391,31 @@ func (h *userInvestorHandler) CheckPhoneAvailability(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 }
 
+// get user by middleware
+func (h *userInvestorHandler) GetUser(c *gin.Context) {
+	currentUser := c.MustGet("currentUser").(core.User)
+
+	// check f account deactive
+	if currentUser.StatusAccount == "deactive" {
+		errorMessage := gin.H{"errors": "Your account is deactive by admin"}
+		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	// if you logout you can't get user
+	if currentUser.Token == "" {
+		errorMessage := gin.H{"errors": "Your account is logout"}
+		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	formatter := core.FormatterUser(currentUser, "")
+
+	response := helper.APIResponse("Successfuly get user by middleware", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
+}
+
 func (h *userInvestorHandler) UpdateUser(c *gin.Context) {
 	var inputID core.GetUserIdInput
 
@@ -419,6 +444,13 @@ func (h *userInvestorHandler) UpdateUser(c *gin.Context) {
 	if currentUser.UnixID != inputID.UnixID {
 		response := helper.APIResponse("Update user failed, because you are not auth", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	// if you logout you can't get user
+	if currentUser.Token == "" {
+		errorMessage := gin.H{"errors": "Your account is logout"}
+		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 

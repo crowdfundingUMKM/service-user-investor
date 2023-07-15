@@ -66,12 +66,15 @@ func main() {
 	// make
 
 	// Rounting start for investor
+	// starting endpoint
+	// api.GET("service_start", userHandler.ServiceStart)
 	api.POST("/register_investor", userHandler.RegisterUser)
 	api.POST("/login_investor", userHandler.Login)
 	api.POST("/email_check", userHandler.CheckEmailAvailability)
 	api.POST("/phone_check", userHandler.CheckPhoneAvailability)
 
 	//make get user by auth
+	api.GET("/get_user", middleware.AuthMiddleware(authService, userInvestorService), userHandler.GetUser)
 
 	//make update profile user by unix_id
 	api.PUT("/update_profile/:unix_id", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UpdateUser)
@@ -88,6 +91,7 @@ func main() {
 	api.POST("/logout_investor", middleware.AuthMiddleware(authService, userInvestorService), userHandler.LogoutUser)
 
 	//make service health for investor
+	api.GET("/service_status", userHandler.ServiceHealth)
 
 	// end Rounting
 	// make env SERVICE_HOST and SERVICE_PORT
