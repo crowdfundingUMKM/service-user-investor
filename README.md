@@ -39,7 +39,8 @@
 - [ ] PUT Update User profile
 - [ ] POST Update_avatar
 
-- [ ] POST Logout
+- [x] POST Logout
+    -Auth middleware user
     - Delete token 
 
 ### CI/CD Github Actions
