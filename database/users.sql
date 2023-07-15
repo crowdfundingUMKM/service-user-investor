@@ -6,6 +6,7 @@ CREATE TABLE `users`
     `email` VARCHAR(255),
     `phone` VARCHAR(20),
     `password_hash` varchar(255) DEFAULT NULL,
+    `bio_user` TEXT,
     `avatar_file_name` varchar(255) DEFAULT NULL,
     `status_account` varchar(255) DEFAULT NULL,
     `token` varchar(255) DEFAULT NULL,
@@ -16,8 +17,8 @@ CREATE TABLE `users`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- data
-INSERT INTO `users` (`id`, `unix_id`,`name`, `email`, `phone`, `password_hash`, `avatar_file_name`, `status_account`, `token`,`update_by_admin`, `created_at`, `updated_at`) VALUES
-(1, '7d4aa4f2-90a', 'Ahmad Zaky', 'test@gmail.com', "82363152828", '$2a$04$6A5/psA4hCa0p0mLZQw4A.GKrkYDH3nTiim8lj9mYS18dmVi2FIvO', '', 'active', '','e747b624-f5c','2023-03-15 22:56:25', '2023-03-15 22:56:25');
+INSERT INTO `users` (`id`, `unix_id`,`name`, `email`, `phone`, `password_hash`,'bio_user', `avatar_file_name`, `status_account`, `token`,`update_by_admin`, `created_at`, `updated_at`) VALUES
+(1, '7d4aa4f2-90a', 'Ahmad Zaky', 'test@gmail.com', "82363152828", '$2a$04$6A5/psA4hCa0p0mLZQw4A.GKrkYDH3nTiim8lj9mYS18dmVi2FIvO','', '', 'active', '','e747b624-f5c','2023-03-15 22:56:25', '2023-03-15 22:56:25');
 
 -- Indexes for table `users`
 --
