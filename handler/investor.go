@@ -2,11 +2,13 @@ package handler
 
 import (
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	api_admin "service-user-investor/api/admin"
 	"service-user-investor/auth"
 	"service-user-investor/core"
+	"service-user-investor/database"
 	"service-user-investor/helper"
 
 	"github.com/gin-gonic/gin"
@@ -98,6 +100,46 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 	}
 	response := helper.APIResponse("Service investor is running", http.StatusOK, "success", data)
 	c.JSON(http.StatusOK, response)
+}
+
+func (h *userInvestorHandler) ServiceStart(c *gin.Context) {
+	// check env open or not
+	serviceStatus := "Service is active"
+
+	errService := c.Errors
+	if errService != nil {
+		response := helper.APIResponse("Service investor is not running", http.StatusInternalServerError, "error", serviceStatus)
+		c.JSON(http.StatusInternalServerError, response)
+		return
+	}
+	response := helper.APIResponse("Service investor is running", http.StatusOK, "success", serviceStatus)
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *userInvestorHandler) ServiceCheckDB(c *gin.Context) {
+	// check env open or not
+	// Check database status
+	db := database.NewConnectionDB()
+	sqlDB, err := db.DB()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer sqlDB.Close()
+
+	errDB := sqlDB.Ping()
+	if errDB != nil {
+		response := helper.APIResponse("Database is not running", http.StatusInternalServerError, "error", nil)
+		c.JSON(http.StatusInternalServerError, response)
+		return
+	}
+
+	currentUser := c.MustGet("currentUser").(core.User)
+
+	data := gin.H{"user": "Wellcome to Service: " + currentUser.Name, "status": "Database is running"}
+
+	response := helper.APIResponse("Service is running", http.StatusOK, "success", data)
+	c.JSON(http.StatusOK, response)
+
 }
 
 // deactive account
