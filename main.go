@@ -85,6 +85,7 @@ func main() {
 	//make delete image profile user by unix_id
 
 	// make logout user by unix_id
+	api.POST("/logout_investor", middleware.AuthMiddleware(authService, userInvestorService), userHandler.LogoutUser)
 
 	//make service health for investor
 
