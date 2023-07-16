@@ -58,6 +58,7 @@ func main() {
 	api.POST("/admin/active_user/:admin_id", userHandler.ActiveUser)
 
 	// make endpoint get all user by admin
+	api.GET("/admin/get_all_user/:admin_id", userHandler.GetAllUserData)
 
 	// make endpoint update user by admin
 

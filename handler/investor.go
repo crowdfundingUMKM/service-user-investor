@@ -259,6 +259,35 @@ func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 	}
 }
 
+// get all user by admin
+func (h *userInvestorHandler) GetAllUserData(c *gin.Context) {
+	// cheack id from get param and fetch data from service admin to check id admin and status account admin
+	// var adminInput investor.AdminIdInput
+	adminID := c.Param("admin_id")
+	adminInput := api_admin.AdminIdInput{UnixID: adminID}
+	getAdminValueId, err := api_admin.GetAdminId(adminInput)
+
+	if err != nil {
+		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	if c.Param("admin_id") == getAdminValueId {
+		users, err := h.userService.GetAllUsers()
+		if err != nil {
+			response := helper.APIResponse("Failed to get user", http.StatusBadRequest, "error", nil)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
+		response := helper.APIResponse("List of user", http.StatusOK, "success", users)
+		c.JSON(http.StatusOK, response)
+	} else {
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
+	}
+}
+
 func (h *userInvestorHandler) RegisterUser(c *gin.Context) {
 	// tangkap input dari user
 	// map input dari user ke struct RegisterUserInput

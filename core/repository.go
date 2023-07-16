@@ -15,6 +15,7 @@ type Repository interface {
 	UpdatePassword(user User) (User, error)
 	UpdateStatusAccount(user User) (User, error)
 	UpdateToken(user User) (User, error)
+	GetAllUser() ([]User, error)
 }
 
 type repository struct {
@@ -109,6 +110,19 @@ func (r *repository) UpdateToken(user User) (User, error) {
 // update password
 func (r *repository) UpdatePassword(user User) (User, error) {
 	err := r.db.Model(&user).Update("password_hash", user.PasswordHash).Error
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+// get all user
+func (r *repository) GetAllUser() ([]User, error) {
+	var user []User
+
+	err := r.db.Find(&user).Error
 
 	if err != nil {
 		return user, err

@@ -18,6 +18,8 @@ type Service interface {
 
 	ActivateAccountUser(input DeactiveUserInput, adminId string) (bool, error)
 
+	GetAllUsers() ([]User, error)
+
 	GetUserByUnixID(UnixID string) (User, error)
 	UpdateUserByUnixID(UnixID string, input UpdateUserInput) (User, error)
 	UpdatePasswordByUnixID(UnixID string, input UpdatePasswordInput) (User, error)
@@ -168,6 +170,15 @@ func (s *service) ActivateAccountUser(input DeactiveUserInput, adminId string) (
 		return true, nil
 	}
 	return true, nil
+}
+
+// get all users
+func (s *service) GetAllUsers() ([]User, error) {
+	users, err := s.repository.GetAllUser()
+	if err != nil {
+		return users, err
+	}
+	return users, nil
 }
 
 func (s *service) GetUserByUnixID(UnixID string) (User, error) {
