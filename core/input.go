@@ -37,3 +37,8 @@ type UpdateUserInput struct {
 	Phone   string `json:"phone" binding:"required"`
 	BioUser string `json:"bio_user" binding:"required"`
 }
+
+type UpdatePasswordInput struct {
+	OldPassword string `json:"old_password" binding:"required"`
+	NewPassword string `json:"new_password" binding:"required"`
+}

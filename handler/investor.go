@@ -524,6 +524,58 @@ func (h *userInvestorHandler) UpdateUser(c *gin.Context) {
 	return
 }
 
+func (h *userInvestorHandler) UpdatePassword(c *gin.Context) {
+	var inputID core.GetUserIdInput
+
+	// check id is valid or not
+	err := c.ShouldBindUri(&inputID)
+	if err != nil {
+		response := helper.APIResponse("Update password failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	var inputData core.UpdatePasswordInput
+
+	err = c.ShouldBindJSON(&inputData)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Update password failed, input data failure", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	currentUser := c.MustGet("currentUser").(core.User)
+
+	if currentUser.UnixID != inputID.UnixID {
+		response := helper.APIResponse("Update password failed, because you are not auth", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	// if you logout you can't get user
+	if currentUser.Token == "" {
+		errorMessage := gin.H{"errors": "Your account is logout"}
+		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	updatedUser, err := h.userService.UpdatePasswordByUnixID(currentUser.UnixID, inputData)
+	if err != nil {
+		response := helper.APIResponse("Update password failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := core.FormatterUserDetail(currentUser, updatedUser)
+
+	response := helper.APIResponse("Password has been updated", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
+	return
+}
+
 // Logout user
 func (h *userInvestorHandler) LogoutUser(c *gin.Context) {
 	// get data from middleware

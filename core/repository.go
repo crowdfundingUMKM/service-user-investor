@@ -12,6 +12,7 @@ type Repository interface {
 	FindByPhone(phone string) (User, error)
 	FindByUnixID(unix_id string) (User, error)
 	Update(user User) (User, error)
+	UpdatePassword(user User) (User, error)
 	UpdateStatusAccount(user User) (User, error)
 	UpdateToken(user User) (User, error)
 }
@@ -105,4 +106,13 @@ func (r *repository) UpdateToken(user User) (User, error) {
 	return user, nil
 }
 
-//end of update token
+// update password
+func (r *repository) UpdatePassword(user User) (User, error) {
+	err := r.db.Model(&user).Update("password_hash", user.PasswordHash).Error
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
