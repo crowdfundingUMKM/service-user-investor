@@ -26,9 +26,23 @@ func NewUserHandler(userService core.Service, authService auth.Service) *userInv
 
 func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 	// check id admin
-	id := os.Getenv("ADMIN_ID")
-	if c.Param("admin_id") == id {
-		content, err := ioutil.ReadFile("./log/gin.log")
+	adminID := c.Param("admin_id")
+	adminInput := api_admin.AdminIdInput{UnixID: adminID}
+	getAdminValueId, err := api_admin.GetAdminId(adminInput)
+
+	if err != nil {
+		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	if c.Param("admin_id") != getAdminValueId {
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
+	}
+
+	if c.Param("admin_id") == getAdminValueId {
+		content, err := ioutil.ReadFile("./tmp/gin.log")
 		if err != nil {
 			response := helper.APIResponse("Failed to get log", http.StatusBadRequest, "error", nil)
 			c.JSON(http.StatusBadRequest, response)
