@@ -28,6 +28,10 @@ type ActiveUserInput struct {
 	UnixID string `json:"unix_id" binding:"required"`
 }
 
+type DeleteUserInput struct {
+	UnixID string `json:"unix_id" binding:"required"`
+}
+
 type GetUserIdInput struct {
 	UnixID string `uri:"unix_id" binding:"required"`
 }

@@ -266,6 +266,58 @@ func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 	}
 }
 
+// delete user by admin
+func (h *userInvestorHandler) DeleteUserByAdmin(c *gin.Context) {
+	var input core.DeleteUserInput
+	// check input from user
+	err := c.ShouldBindJSON(&input)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("User Not Found", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	// cheack id from get param and fetch data from service admin to check id admin and status account admin
+	adminID := c.Param("admin_id")
+	adminInput := api_admin.AdminIdInput{UnixID: adminID}
+	getAdminValueId, err := api_admin.GetAdminId(adminInput)
+
+	if err != nil {
+		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	// middleware api admin
+	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
+
+	if c.Param("admin_id") == getAdminValueId && currentAdmin.UnixAdmin == getAdminValueId {
+		// get id user
+
+		// deactive user
+		delete, err := h.userService.DeleteAccountUser(input.UnixID)
+
+		data := gin.H{
+			"success_delete": delete,
+		}
+
+		if err != nil {
+			response := helper.APIResponse("Failed to delete user", http.StatusBadRequest, "error", "Not Found User investor")
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
+		response := helper.APIResponse("User has been delete", http.StatusOK, "success", data)
+		c.JSON(http.StatusOK, response)
+	} else {
+		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
+		c.JSON(http.StatusNotFound, response)
+		return
+	}
+}
+
 // get all user by admin
 func (h *userInvestorHandler) GetAllUserData(c *gin.Context) {
 	// cheack id from get param and fetch data from service admin to check id admin and status account admin

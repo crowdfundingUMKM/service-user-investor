@@ -64,7 +64,7 @@ func main() {
 	// make update password by admin
 
 	// make delete user by admin
-
+	api.POST("/admin/delete_user/:admin_id", middleware.AuthApiAdminMiddleware(authService, userInvestorService), userHandler.DeleteUserByAdmin)
 	// make
 
 	// Rounting start for investor

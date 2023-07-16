@@ -18,6 +18,8 @@ type Service interface {
 
 	ActivateAccountUser(input DeactiveUserInput, adminId string) (bool, error)
 
+	DeleteAccountUser(UnixID string) (User, error)
+
 	GetAllUsers() ([]User, error)
 
 	GetUserByUnixID(UnixID string) (User, error)
@@ -170,6 +172,19 @@ func (s *service) ActivateAccountUser(input DeactiveUserInput, adminId string) (
 		return true, nil
 	}
 	return true, nil
+}
+
+// delete user by admin
+func (s *service) DeleteAccountUser(UnixID string) (User, error) {
+	// fin user by unix id
+	user, err := s.repository.FindByUnixID(UnixID)
+	_, err = s.repository.DeleteUser(user)
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
 
 // get all users
