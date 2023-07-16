@@ -183,13 +183,16 @@ func (h *userInvestorHandler) DeactiveUser(c *gin.Context) {
 		return
 	}
 
+	// middleware api admin
+	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
+
 	// check id admin
 	// adminId := getAdminValueId
-	if c.Param("admin_id") == getAdminValueId {
+	if c.Param("admin_id") == getAdminValueId && currentAdmin.UnixAdmin == getAdminValueId {
 		// get id user
 
 		// deactive user
-		deactive, err := h.userService.DeactivateAccountUser(input, getAdminValueId)
+		deactive, err := h.userService.DeactivateAccountUser(input, currentAdmin.UnixAdmin)
 
 		data := gin.H{
 			"success_deactive": deactive,
@@ -234,16 +237,19 @@ func (h *userInvestorHandler) ActiveUser(c *gin.Context) {
 		return
 	}
 
+	// middleware api admin
+	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
+
 	// check id admin
 	// adminId := getAdminValueId
-	if c.Param("admin_id") == getAdminValueId {
+	if c.Param("admin_id") == getAdminValueId && currentAdmin.UnixAdmin == getAdminValueId {
 		// get id user
 
 		// deactive user
-		deactive, err := h.userService.ActivateAccountUser(input, getAdminValueId)
+		active, err := h.userService.ActivateAccountUser(input, currentAdmin.UnixAdmin)
 
 		data := gin.H{
-			"success_active": deactive,
+			"success_active": active,
 		}
 
 		if err != nil {
