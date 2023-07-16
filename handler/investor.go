@@ -79,7 +79,11 @@ func (h *userInvestorHandler) ServiceHealth(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-	if c.Param("admin_id") != getAdminValueId {
+
+	// middleware api admin
+	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
+
+	if c.Param("admin_id") != getAdminValueId && currentAdmin.UnixAdmin != getAdminValueId {
 		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
 		c.JSON(http.StatusNotFound, response)
 		return

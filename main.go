@@ -52,7 +52,7 @@ func main() {
 
 	// admin request -> service user admin
 	api.GET("/admin/log_service_toAdmin/:admin_id", middleware.AuthApiAdminMiddleware(authService, userInvestorService), userHandler.GetLogtoAdmin)
-	api.GET("/admin/service_status/:admin_id", userHandler.ServiceHealth)
+	api.GET("/admin/service_status/:admin_id", middleware.AuthApiAdminMiddleware(authService, userInvestorService), userHandler.ServiceHealth)
 	api.POST("/admin/deactive_user/:admin_id", userHandler.DeactiveUser)
 	api.POST("/admin/active_user/:admin_id", userHandler.ActiveUser)
 
