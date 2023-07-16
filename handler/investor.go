@@ -267,12 +267,15 @@ func (h *userInvestorHandler) GetAllUserData(c *gin.Context) {
 	adminInput := api_admin.AdminIdInput{UnixID: adminID}
 	getAdminValueId, err := api_admin.GetAdminId(adminInput)
 
+	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
+
 	if err != nil {
 		response := helper.APIResponse(err.Error(), http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-	if c.Param("admin_id") == getAdminValueId {
+
+	if c.Param("admin_id") == getAdminValueId && currentAdmin.UnixAdmin == getAdminValueId {
 		users, err := h.userService.GetAllUsers()
 		if err != nil {
 			response := helper.APIResponse("Failed to get user", http.StatusBadRequest, "error", nil)

@@ -51,3 +51,11 @@ type AdminStatusResponse struct {
 	Meta Meta      `json:"meta"`
 	Data UserAdmin `json:"data"`
 }
+
+type VerifyTokenApiAdminResponse struct {
+	Meta Meta `json:"meta"`
+	Data struct {
+		UnixAdmin string `json:"admin_id"`
+		Succes    string `json:"success"`
+	} `json:"data"`
+}
