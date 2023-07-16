@@ -24,4 +24,4 @@ go.work
 .env
 
 # log
-/tmp/gin.log
+tmp/gin.log
