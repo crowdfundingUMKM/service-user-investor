@@ -35,13 +35,10 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-	if c.Param("admin_id") != getAdminValueId {
-		response := helper.APIResponse("Your not Admin, cannot Access", http.StatusUnprocessableEntity, "error", nil)
-		c.JSON(http.StatusNotFound, response)
-		return
-	}
 
-	if c.Param("admin_id") == getAdminValueId {
+	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
+
+	if c.Param("admin_id") == getAdminValueId && currentAdmin.UnixAdmin == getAdminValueId {
 		content, err := ioutil.ReadFile("./tmp/gin.log")
 		if err != nil {
 			response := helper.APIResponse("Failed to get log", http.StatusBadRequest, "error", nil)
