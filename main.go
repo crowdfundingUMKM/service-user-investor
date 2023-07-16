@@ -50,10 +50,9 @@ func main() {
 	// group api
 	api := router.Group("api/v1")
 
-	// admin request
+	// admin request -> service user admin
 	api.GET("/admin/log_service_toAdmin/:admin_id", userHandler.GetLogtoAdmin)
 	api.GET("/admin/service_status/:admin_id", userHandler.ServiceHealth)
-	// make endpoint deactive user
 	api.POST("/admin/deactive_user/:admin_id", userHandler.DeactiveUser)
 	api.POST("/admin/active_user/:admin_id", userHandler.ActiveUser)
 
