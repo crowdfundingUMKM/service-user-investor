@@ -16,7 +16,7 @@ func AuthApiAdminMiddleware(authService auth.Service, userService core.Service) 
 		authHeader := c.GetHeader("Authorization")
 
 		if !strings.Contains(authHeader, "Bearer") {
-			response := helper.APIResponse("Unauthorized0", http.StatusUnauthorized, "error", nil)
+			response := helper.APIResponse("Unauthorized API Admin", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
@@ -45,7 +45,7 @@ func AuthApiAdminMiddleware(authService auth.Service, userService core.Service) 
 		// adminID := claim["admin_id"].(string)
 
 		if tokenString == "" {
-			response := helper.APIResponse("Unauthorized1", http.StatusUnauthorized, "error", nil)
+			response := helper.APIResponse("Unauthorized API Admin", http.StatusUnauthorized, "error", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
@@ -53,7 +53,7 @@ func AuthApiAdminMiddleware(authService auth.Service, userService core.Service) 
 		adminID, err := api_admin.VerifyTokenAdmin(tokenString)
 
 		if err != nil { //wrong token
-			response := helper.APIResponse("Unauthorized2", http.StatusUnauthorized, "error", err.Error())
+			response := helper.APIResponse("Unauthorized API Admin", http.StatusUnauthorized, "error", err.Error())
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 			return
 		}
