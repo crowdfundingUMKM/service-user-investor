@@ -24,7 +24,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
-	// setup log
+	// setup log if Production Mode
 	// config.InitLog()
 
 	// SETUP REPO
