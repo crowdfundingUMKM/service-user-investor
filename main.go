@@ -66,7 +66,7 @@ func main() {
 	// make delete user by admin
 	api.POST("/admin/delete_user/:admin_id", middleware.AuthApiAdminMiddleware(authService, userInvestorService), userHandler.DeleteUserByAdmin)
 
-	// make endpoint delete user SoftDelete and change on login and ferify if delete status account
+	// make endpoint delete user SoftDelete and change on login and verify if delete status account
 
 	// update /admin/ if change data must with time and push array data user id
 
