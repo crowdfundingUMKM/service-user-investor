@@ -3,3 +3,5 @@ Dockerfile
 README.md
 .git
 ./log/gin.log
+.env.example
+```
