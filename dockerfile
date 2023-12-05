@@ -1,15 +1,21 @@
-#syntax=docker/dockerfile:1
-
+# Use the official Go image as the base image
 FROM golang:1.19-alpine
 
+# Set the working directory inside the container
 WORKDIR /app
 
-COPY . .
 
+# Copy the Go module files
+COPY go.mod go.sum ./
+
+# Download the dependencies
 RUN go mod download
 
-RUN go build -o main
+# Copy the rest of the application code
+COPY . .
 
-EXPOSE 8082
+# Build the Go application
+RUN go build -o main .
 
-CMD [ "./main" ]
+# Set the entry point command to run the built binary
+CMD ["./main"]
