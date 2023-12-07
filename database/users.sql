@@ -18,9 +18,8 @@ CREATE TABLE `users`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- data
-INSERT INTO `users` (`id`, `unix_id`,`name`, `email`, `phone`, `password_hash`,`bio_user`, `avatar_file_name`, `status_account`, `token`,`update_by_admin`,`update_admin_at` ,`created_at`, `updated_at`) VALUES
-(1, '7d4aa4f2-90a', 'Ahmad Zaky', 'test@gmail.com', "82363152828", '$2a$04$6A5/psA4hCa0p0mLZQw4A.GKrkYDH3nTiim8lj9mYS18dmVi2FIvO','', '', 'active', '','e747b624-f5c','2023-03-15 22:56:25','2023-03-15 11:51:21', '2023-03-15 22:56:25');
-
+INSERT INTO `users` (`id`, `unix_id`, `name`, `email`, `phone`, `password_hash`, `bio_user`, `avatar_file_name`, `status_account`, `token`, `update_by_admin`, `updated_admin_at`, `created_at`, `updated_at`) VALUES
+(1, '7d4aa4f2-90a', 'Ahmad Zaky', 'test@gmail.com', '82363152828', '$2a$04$6A5/psA4hCa0p0mLZQw4A.GKrkYDH3nTiim8lj9mYS18dmVi2FIvI', '', '', 'active', '', 'e747b624-f5c', '2023-03-15 22:56:25', '2023-03-15 11:51:21', '2023-03-15 22:56:25');
 -- Indexes for table `users`
 --
 -- ALTER TABLE `users`
