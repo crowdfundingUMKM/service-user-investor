@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "crowfundingumkm01",
+  "private_key_id": "17af5d2a0fa9309b7c7e929933ec1373688ca7e1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHfx836WQttMnt\nq8IhN9eeiGqyDSBTlfu7Cy6qTfuppBUCX1eR9MjXHYb7jzKG8bdd7/NiE23j4fUl\n8YiLtxhWKuL/gcXpl0X4dZgalVTewwH7G1y2nGlz5Wk7rrZXdQ0ae7ON0YvLXOt+\nfr1t+asap+NiylQRZQqcMap9o5L6dnld7Sj7bQrf0Ck8DjqisyLr/14wXyw9X8GW\n3kWbbuG0R8ozMXcuWoFW5wyKhu0LSkPVHwRRKBfUNWhouWBh1wy345uBet2mH+lO\nFHUTxSfXa0RSUgjK6pijuksxb97GJ6HaTJZWwjFJNEtVkIkBOpi10JnuIBCZ7xkz\nEtuJtujhAgMBAAECggEABaZHhBvke9CgDA5yVkJchWNduaZ6YxGXFhU/TGB+Wy/P\nzkAU1NfguOpPtnen/bcySxtKqj0sflDJomoiVLoR+u02ndefCyIe/7X1UXHnjBIr\n0ACWrd90s0z0r6VvSZ9hiE2m4GIV9lOuode9HbRdhIkK/QMHsdEppXIY3ttbNANq\nZQRyrV5U2plCLidVw111shGuleyIYRcub1qoFc5tjCA/ppWYGpC8l0etAFm8fK62\nXU73+qIryVQHsVTj4ttPypftrNWYMrDm1ES+ntEywoQBaiU6ijDJKR7zIRYf2k3c\nzzd8aKUmNLb4PhYwG0uXb8VBkncywzIUf+7L6FwNAQKBgQD76XwZrGB7hzHMEmN8\n7OKs/gpmOsuLYzK3+1lRUz8uAtRe93U5RbwzLZkylCbWIzqtTYxkSLhPk10TUpde\nTD8ACsvvP8K0nMfgpGdiMQKLZF1Mp2wH1vTCB72F/LT1iJMtbDXlrHddMRJ1tH1q\nDP2EHz9UMTmsRBbHhJEcpENogQKBgQDKu+NfffIsyJS9KS6cRIedFzU74MQ8FPQ6\n+ZZk65HAUveZxnKVhw0HY7ETFwq9Am5Kp0lXdMF8Vkjtl+s8IT1NSUY5PhHq39Qn\n6o5Wixe08lUkrJO3fwGb9w2FWGukFZMg9ZqrKgesozdQtAHgzsdqSFBpoYRU0KEk\nylrV2YRQYQKBgE/QHf2UW81HfEOH3/WIqBjfNDRHlI3JFByuihH2KiJNyzN7e6x1\np7cfT1ZzEgruhny6AS0UzTCJJAgnNsYtqhg9U3et3+aRddJ6xDacCI5ZciYDNXsW\nY93FzgpRkpPofZj6m+j0x6zDC3I3iTS8gOYHcG0gW4F04TK9kaxdbu4BAoGBAIWH\nHOn/TSub7QNuBWodZOjdqU1H7FfaQUY6r4jG81emDbi10TCVI8qzKaT2LzdwS25W\nImM83ldjiWMcBW60QekOkvcO38RAKj8kKR3tPO8MEXI3TI+2UjwEi15Bb5xCLYau\n3XFRHH7jfYJlHTuRVhy1hmkcXclzJD/UG+HwA0rhAoGAEeHvV6nLTof6NkbQlBed\nsM9Ny8Kl6SDPGVXsfSVS9rNdlJ0wgNl11tEDFQ/vAQ/y93p/a0+tj5liZgY9drwy\n1NxAOOKee9WypGrhkA6o6+X6Jcsv6yCc+CIjRnfJG8fcWiQMghP5UNKIq4tS/g1p\ngznLkK0/X3YREjQW8+/j3PE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "investor@crowfundingumkm01.iam.gserviceaccount.com",
+  "client_id": "118368034922203021557",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/investor%40crowfundingumkm01.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
