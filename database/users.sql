@@ -26,7 +26,7 @@ CREATE TABLE `users` (
 -- notif_investor table
 CREATE TABLE `notif_investor` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_investor` CHAR(12),
+    `user_investor_id` CHAR(12),
     `title` VARCHAR(255),
     `description` TEXT,
     `type_info` VARCHAR(11),

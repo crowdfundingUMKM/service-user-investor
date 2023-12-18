@@ -98,6 +98,10 @@ func main() {
 	// make logout user by unix_id
 	api.POST("/logout_investor", middleware.AuthMiddleware(authService, userInvestorService), userHandler.LogoutUser)
 
+	// Notif to admin route
+	// api.POST("/report_to_admin", middleware.AuthMiddleware(authService, userInvestorService), userHandler.ReportToAdmin)
+	// api.GET("/get_notif_admin", middleware.AuthMiddleware(authService, userInvestorService), userHandler.GetNotifToAdmin)
+
 	// end Rounting
 	// make env SERVICE_HOST and SERVICE_PORT
 	url := fmt.Sprintf("%s:%s", os.Getenv("SERVICE_HOST"), os.Getenv("SERVICE_PORT"))
