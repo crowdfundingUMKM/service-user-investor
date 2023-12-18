@@ -12,6 +12,7 @@ type Repository interface {
 	FindByPhone(phone string) (User, error)
 	FindByUnixID(unix_id string) (User, error)
 	Update(user User) (User, error)
+	UploadAvatarImage(user User) (User, error)
 	UpdatePassword(user User) (User, error)
 	UpdateStatusAccount(user User) (User, error)
 	UpdateToken(user User) (User, error)
@@ -73,6 +74,16 @@ func (r *repository) FindByUnixID(unix_id string) (User, error) {
 
 func (r *repository) Update(user User) (User, error) {
 	err := r.db.Model(&user).Updates(User{Name: user.Name, Phone: user.Phone, BioUser: user.BioUser}).Error
+
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}
+
+func (r *repository) UploadAvatarImage(user User) (User, error) {
+	err := r.db.Model(&user).Updates(User{AvatarFileName: user.AvatarFileName}).Error
 
 	if err != nil {
 		return user, err

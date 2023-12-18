@@ -22,6 +22,8 @@ type Service interface {
 
 	GetAllUsers() ([]User, error)
 
+	SaveAvatar(UnixID string, fileLocation string) (User, error)
+
 	GetUserByUnixID(UnixID string) (User, error)
 	UpdateUserByUnixID(UnixID string, input UpdateUserInput) (User, error)
 	UpdatePasswordByUnixID(UnixID string, input UpdatePasswordInput) (User, error)
@@ -277,6 +279,22 @@ func (s *service) DeleteToken(UnixID string) (User, error) {
 	user.Token = ""
 
 	updatedUser, err := s.repository.UpdateToken(user)
+	if err != nil {
+		return updatedUser, err
+	}
+
+	return updatedUser, nil
+}
+
+func (s *service) SaveAvatar(UnixID string, fileLocation string) (User, error) {
+	user, err := s.repository.FindByUnixID(UnixID)
+	if err != nil {
+		return user, err
+	}
+
+	user.AvatarFileName = fileLocation
+
+	updatedUser, err := s.repository.UploadAvatarImage(user)
 	if err != nil {
 		return updatedUser, err
 	}

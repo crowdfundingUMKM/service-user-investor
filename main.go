@@ -90,7 +90,7 @@ func main() {
 	api.PUT("/update_password/:unix_id", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UpdatePassword)
 
 	//make create image profile user by unix_id
-
+	api.POST("/upload_images", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UploadAvatar)
 	//make update image profile user by unix_id
 
 	//make delete image profile user by unix_id

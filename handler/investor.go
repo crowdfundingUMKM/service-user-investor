@@ -1,9 +1,12 @@
 package handler
 
 import (
+	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	api_admin "service-user-investor/api/admin"
 	"service-user-investor/auth"
@@ -11,14 +14,21 @@ import (
 	"service-user-investor/database"
 	"service-user-investor/helper"
 
+	"cloud.google.com/go/storage"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"google.golang.org/api/option"
+	"google.golang.org/appengine"
 )
 
 type userInvestorHandler struct {
 	userService core.Service
 	authService auth.Service
 }
+
+var (
+	storageClient *storage.Client
+)
 
 func NewUserHandler(userService core.Service, authService auth.Service) *userInvestorHandler {
 	return &userInvestorHandler{userService, authService}
@@ -665,6 +675,84 @@ func (h *userInvestorHandler) UpdatePassword(c *gin.Context) {
 	response := helper.APIResponse("Password has been updated", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
 	return
+}
+
+// Upload image
+func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
+	f, uploadedFile, err := c.Request.FormFile("avatar")
+	if err != nil {
+		data := gin.H{"is_uploaded": false}
+		response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "error", data)
+
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	currentUser := c.MustGet("currentUser").(core.User)
+	userID := currentUser.UnixID
+	userName := currentUser.Name
+
+	//
+
+	// initiate cloud storage os.Getenv("GCS_BUCKET")
+	bucket := fmt.Sprintf("%s", os.Getenv("GCS_BUCKET"))
+
+	// var err error
+	ctx := appengine.NewContext(c.Request)
+
+	storageClient, err = storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
+
+	if err != nil {
+		// data := gin.H{"is_uploaded": false}
+		response := helper.APIResponse("Failed to upload avatar image to GCP", http.StatusBadRequest, "error", err)
+
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	defer f.Close()
+
+	sw := storageClient.Bucket(bucket).Object("avatar-" + userID + "-" + userName + "-" + uploadedFile.Filename).NewWriter(ctx)
+
+	if _, err := io.Copy(sw, f); err != nil {
+		// data := gin.H{"is_uploaded": false}
+		response := helper.APIResponse("Failed to upload avatar image to GCP", http.StatusBadRequest, "error", err)
+
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	if err := sw.Close(); err != nil {
+		// data := gin.H{"is_uploaded": false}
+		response := helper.APIResponse("Failed to upload avatar image to GCP", http.StatusBadRequest, "error", err)
+
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	u, err := url.Parse("/" + bucket + "/" + sw.Attrs().Name)
+	if err != nil {
+		// data := gin.H{"is_uploaded": false}
+		response := helper.APIResponse("Failed to upload avatar image to GCP", http.StatusBadRequest, "error", err)
+
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	path := u.String()
+
+	// save avatar to database
+	_, err = h.userService.SaveAvatar(userID, path)
+	if err != nil {
+		data := gin.H{"is_uploaded": false}
+		response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "error", data)
+
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	data := gin.H{"is_uploaded": true}
+	response := helper.APIResponse("Avatar successfuly uploaded", http.StatusOK, "success", data)
+
+	c.JSON(http.StatusOK, response)
 }
 
 // Logout user

@@ -6,8 +6,8 @@ type UserInvestorFormatter struct {
 	Name          string `json:"name"`
 	Email         string `json:"email"`
 	Phone         string `json:"phone"`
-	Token         string `json:"token"`
 	BioUser       string `json:"bio_user"`
+	Avatar        string `json:"avatar_file_name"`
 	StatusAccount string `json:"status_account"`
 }
 
@@ -19,7 +19,7 @@ func FormatterUser(user User, token string) UserInvestorFormatter {
 		Email:         user.Email,
 		Phone:         user.Phone,
 		BioUser:       user.BioUser,
-		Token:         token,
+		Avatar:        user.AvatarFileName,
 		StatusAccount: user.StatusAccount,
 	}
 	return formatter
@@ -32,6 +32,7 @@ type UserDetailFormatter struct {
 	Email         string `json:"email"`
 	Phone         string `json:"phone"`
 	BioUser       string `json:"bio_user"`
+	Avatar        string `json:"avatar_file_name"`
 	StatusAccount string `json:"status_account"`
 }
 
@@ -43,6 +44,7 @@ func FormatterUserDetail(user User, updatedUser User) UserDetailFormatter {
 		Email:         user.Email,
 		Phone:         user.Phone,
 		BioUser:       user.BioUser,
+		Avatar:        user.AvatarFileName,
 		StatusAccount: user.StatusAccount,
 	}
 	// read data before update if null use old data
@@ -54,6 +56,9 @@ func FormatterUserDetail(user User, updatedUser User) UserDetailFormatter {
 	}
 	if updatedUser.BioUser != "" {
 		formatter.BioUser = updatedUser.BioUser
+	}
+	if updatedUser.AvatarFileName != "" {
+		formatter.Avatar = updatedUser.AvatarFileName
 	}
 	if updatedUser.StatusAccount != "" {
 		formatter.StatusAccount = updatedUser.StatusAccount
