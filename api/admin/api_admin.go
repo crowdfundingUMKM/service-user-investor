@@ -65,7 +65,7 @@ func VerifyTokenAdmin(input string) (string, error) {
 	if serviceAdmin == "" {
 		return "", errors.New("service admin is empty")
 	}
-	req, err := http.NewRequest("GET", serviceAdmin+"/api/v1/verifyToken", nil)
+	req, err := http.NewRequest("GET", serviceAdmin+"/api/v1/verifyTokenAdmin", nil)
 
 	if err != nil {
 		return "", err
