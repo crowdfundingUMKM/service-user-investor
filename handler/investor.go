@@ -672,7 +672,7 @@ func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
 
 	// initiate cloud storage os.Getenv("GCS_BUCKET")
 	bucket := fmt.Sprintf("%s", os.Getenv("GCS_BUCKET"))
-
+	subfolder := fmt.Sprintf("%s", os.Getenv("GCS_SUBFOLDER"))
 	// var err error
 	ctx := appengine.NewContext(c.Request)
 
@@ -687,7 +687,8 @@ func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
 	}
 	defer f.Close()
 
-	sw := storageClient.Bucket(bucket).Object("avatar-" + userID + "-" + userName + "-" + uploadedFile.Filename).NewWriter(ctx)
+	objectName := fmt.Sprintf("%s/avatar-%s-%s-%s", subfolder, userID, userName, uploadedFile.Filename)
+	sw := storageClient.Bucket(bucket).Object(objectName).NewWriter(ctx)
 
 	if _, err := io.Copy(sw, f); err != nil {
 		// data := gin.H{"is_uploaded": false}
