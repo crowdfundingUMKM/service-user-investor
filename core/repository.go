@@ -73,7 +73,7 @@ func (r *repository) FindByUnixID(unix_id string) (User, error) {
 }
 
 func (r *repository) Update(user User) (User, error) {
-	err := r.db.Model(&user).Updates(User{Name: user.Name, Phone: user.Phone, BioUser: user.BioUser}).Error
+	err := r.db.Model(&user).Updates(User{Name: user.Name, Phone: user.Phone, BioUser: user.BioUser, Addreas: user.Addreas, Country: user.Country, FBLink: user.FBLink, IGLink: user.IGLink}).Error
 
 	if err != nil {
 		return user, err
@@ -98,7 +98,7 @@ func (r *repository) UpdateStatusAccount(user User) (User, error) {
 
 	err := r.db.Model(&user).Updates(User{
 		StatusAccount: user.StatusAccount,
-		UpdateByAdmin: user.UpdateByAdmin,
+		UpdateIDAdmin: user.UpdateIDAdmin,
 	}).Error
 
 	if err != nil {

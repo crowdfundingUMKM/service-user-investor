@@ -1,25 +1,42 @@
-CREATE TABLE `users`
-(
+-- user_investor table
+CREATE TABLE `users` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
     `unix_id` CHAR(12) NOT NULL,
     `name` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255),
-    `phone` VARCHAR(20),
-    `password_hash` varchar(255) DEFAULT NULL,
+    `phone` VARCHAR(255),
+    `country` VARCHAR(255),
+    `addreas` VARCHAR(255),
     `bio_user` TEXT,
-    `avatar_file_name` varchar(255) DEFAULT NULL,
-    `status_account` varchar(255) DEFAULT NULL,
-    `token` varchar(255) DEFAULT NULL,
-    `update_by_admin` VARCHAR(15) DEFAULT NULL,
-    `updated_admin_at` datetime DEFAULT NULL,
-    `created_at` datetime DEFAULT NULL,
-    `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
+    `fb_link` VARCHAR(255),
+    `ig_link` VARCHAR(255),
+    `password_hash` VARCHAR(255),
+    `status_account` VARCHAR(10),
+    `avatar_file_name` VARCHAR(255),
+    `token` VARCHAR(255),
+    `update_id_admin` CHAR(12),
+    `udpate_at_admin` DATETIME,
+    `created_at` DATETIME,
+    `updated_at` DATETIME,
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- data
-INSERT INTO `users` (`id`, `unix_id`, `name`, `email`, `phone`, `password_hash`, `bio_user`, `avatar_file_name`, `status_account`, `token`, `update_by_admin`, `updated_admin_at`, `created_at`, `updated_at`) VALUES
-(1, '7d4aa4f2-90a', 'Ahmad Zaky', 'test@gmail.com', '82363152828', '$2a$04$6A5/psA4hCa0p0mLZQw4A.GKrkYDH3nTiim8lj9mYS18dmVi2FIvI', '', '', 'active', '', 'e747b624-f5c', '2023-03-15 22:56:25', '2023-03-15 11:51:21', '2023-03-15 22:56:25');
+-- insert data
+
+-- notif_investor table
+CREATE TABLE `notif_investor` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_investor` CHAR(12),
+    `title` VARCHAR(255),
+    `description` TEXT,
+    `type_info` VARCHAR(11),
+    `document` VARCHAR(255),
+    `status_notif` TINYINT(1),
+    `created_at` DATETIME,
+    `updated_at` DATETIME,
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- Indexes for table `users`
 --
 -- ALTER TABLE `users`

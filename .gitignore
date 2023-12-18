@@ -16,7 +16,7 @@ go.sum# If you prefer the allow list template instead of the deny list, see comm
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-
+.vscode/
 # Go workspace file
 go.work
 

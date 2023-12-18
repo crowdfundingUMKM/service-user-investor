@@ -84,13 +84,13 @@ func main() {
 	api.GET("/get_user", middleware.AuthMiddleware(authService, userInvestorService), userHandler.GetUser)
 
 	//make update profile user by unix_id
-	api.PUT("/update_profile/:unix_id", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UpdateUser)
+	api.PUT("/update_profile", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UpdateUser)
 
 	//make update password user by unix_id
-	api.PUT("/update_password/:unix_id", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UpdatePassword)
+	api.PUT("/update_password", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UpdatePassword)
 
-	//make create image profile user by unix_id
-	api.POST("/upload_images", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UploadAvatar)
+	//make create image profile user by unix_id this for update
+	api.POST("/upload_avatar", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UploadAvatar)
 	//make update image profile user by unix_id
 
 	//make delete image profile user by unix_id

@@ -46,6 +46,7 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	user.Name = input.Name
 	user.Email = input.Email
 	user.Phone = input.Phone
+	user.AvatarFileName = "/crwdstorage/avatar_investor/dafault-avatar.png"
 
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.MinCost)
 
@@ -139,7 +140,7 @@ func (s *service) DeactivateAccountUser(input DeactiveUserInput, adminId string)
 	if adminId == "" {
 		return false, errors.New("Admin ID is empty")
 	}
-	user.UpdateByAdmin = adminId
+	user.UpdateIDAdmin = adminId
 	user.StatusAccount = "deactive"
 	_, err = s.repository.UpdateStatusAccount(user)
 
@@ -162,7 +163,7 @@ func (s *service) ActivateAccountUser(input DeactiveUserInput, adminId string) (
 	if adminId == "" {
 		return false, errors.New("Admin ID is empty")
 	}
-	user.UpdateByAdmin = adminId
+	user.UpdateIDAdmin = adminId
 	user.StatusAccount = "active"
 	_, err = s.repository.UpdateStatusAccount(user)
 
@@ -224,6 +225,10 @@ func (s *service) UpdateUserByUnixID(UnixID string, input UpdateUserInput) (User
 	user.Name = input.Name
 	user.Phone = input.Phone
 	user.BioUser = input.BioUser
+	user.Addreas = input.Addreas
+	user.Country = input.Country
+	user.FBLink = input.FBLink
+	user.IGLink = input.IGLink
 
 	updatedUser, err := s.repository.Update(user)
 	if err != nil {

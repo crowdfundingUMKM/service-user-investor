@@ -574,39 +574,24 @@ func (h *userInvestorHandler) GetUser(c *gin.Context) {
 }
 
 func (h *userInvestorHandler) UpdateUser(c *gin.Context) {
-	var inputID core.GetUserIdInput
+	currentUser := c.MustGet("currentUser").(core.User)
 
-	// check id is valid or not
-	err := c.ShouldBindUri(&inputID)
-	if err != nil {
-		response := helper.APIResponse("Update user failed", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
+	// if you logout you can't get user
+	if currentUser.Token == "" {
+		errorMessage := gin.H{"errors": "Your account is logout"}
+		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	var inputData core.UpdateUserInput
 
-	err = c.ShouldBindJSON(&inputData)
+	err := c.ShouldBindJSON(&inputData)
 	if err != nil {
 		errors := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errors}
 
 		response := helper.APIResponse("Update user failed, input data failure", http.StatusUnprocessableEntity, "error", errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	currentUser := c.MustGet("currentUser").(core.User)
-
-	if currentUser.UnixID != inputID.UnixID {
-		response := helper.APIResponse("Update user failed, because you are not auth", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-	// if you logout you can't get user
-	if currentUser.Token == "" {
-		errorMessage := gin.H{"errors": "Your account is logout"}
-		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -626,39 +611,24 @@ func (h *userInvestorHandler) UpdateUser(c *gin.Context) {
 }
 
 func (h *userInvestorHandler) UpdatePassword(c *gin.Context) {
-	var inputID core.GetUserIdInput
+	currentUser := c.MustGet("currentUser").(core.User)
 
-	// check id is valid or not
-	err := c.ShouldBindUri(&inputID)
-	if err != nil {
-		response := helper.APIResponse("Update password failed", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
+	// if you logout you can't get user
+	if currentUser.Token == "" {
+		errorMessage := gin.H{"errors": "Your account is logout"}
+		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
 
 	var inputData core.UpdatePasswordInput
 
-	err = c.ShouldBindJSON(&inputData)
+	err := c.ShouldBindJSON(&inputData)
 	if err != nil {
 		errors := helper.FormatValidationError(err)
 		errorMessage := gin.H{"errors": errors}
 
 		response := helper.APIResponse("Update password failed, input data failure", http.StatusUnprocessableEntity, "error", errorMessage)
-		c.JSON(http.StatusUnprocessableEntity, response)
-		return
-	}
-
-	currentUser := c.MustGet("currentUser").(core.User)
-
-	if currentUser.UnixID != inputID.UnixID {
-		response := helper.APIResponse("Update password failed, because you are not auth", http.StatusBadRequest, "error", nil)
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-	// if you logout you can't get user
-	if currentUser.Token == "" {
-		errorMessage := gin.H{"errors": "Your account is logout"}
-		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
 		c.JSON(http.StatusUnprocessableEntity, response)
 		return
 	}
@@ -692,7 +662,13 @@ func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
 	userID := currentUser.UnixID
 	userName := currentUser.Name
 
-	//
+	// if you logout you can't get user
+	if currentUser.Token == "" {
+		errorMessage := gin.H{"errors": "Your account is logout"}
+		response := helper.APIResponse("Get user failed", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
 
 	// initiate cloud storage os.Getenv("GCS_BUCKET")
 	bucket := fmt.Sprintf("%s", os.Getenv("GCS_BUCKET"))
