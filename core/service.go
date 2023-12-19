@@ -30,6 +30,8 @@ type Service interface {
 
 	SaveToken(UnixID string, Token string) (User, error)
 	DeleteToken(UnixID string) (User, error)
+
+	ReportAdmin(UnixID string, input ReportToAdminInput) (NotifInvestor, error)
 }
 
 type service struct {
@@ -305,4 +307,20 @@ func (s *service) SaveAvatar(UnixID string, fileLocation string) (User, error) {
 	}
 
 	return updatedUser, nil
+}
+
+// ReportAdmin
+func (s *service) ReportAdmin(UnixID string, input ReportToAdminInput) (NotifInvestor, error) {
+	notif := NotifInvestor{}
+	notif.UserInvestorId = UnixID
+	notif.Title = input.Title
+	notif.Description = input.Description
+	notif.TypeError = input.TypeError
+	notif.StatusNotif = 1
+
+	newNotif, err := s.repository.SaveReport(notif)
+	if err != nil {
+		return newNotif, err
+	}
+	return newNotif, nil
 }

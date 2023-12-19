@@ -85,3 +85,23 @@ func FormatterUserDetail(user User, updatedUser User) UserDetailFormatter {
 	}
 	return formatter
 }
+
+// notify formater
+type NotifyFormatter struct {
+	ID          int    `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	TypeError   string `json:"type_error"`
+	StatusNotif int    `json:"status_notif"`
+}
+
+func FormatterNotify(notify NotifInvestor) NotifyFormatter {
+	formatter := NotifyFormatter{
+		ID:          notify.ID,
+		Title:       notify.Title,
+		Description: notify.Description,
+		TypeError:   notify.TypeError,
+		StatusNotif: notify.StatusNotif,
+	}
+	return formatter
+}

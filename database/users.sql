@@ -24,12 +24,12 @@ CREATE TABLE `users` (
 -- insert data
 
 -- notif_investor table
-CREATE TABLE `notif_investor` (
+CREATE TABLE `notif_investors` (
     `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_investor_id` CHAR(12),
-    `title` VARCHAR(255),
+    `user_investor_id` CHAR(12) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
     `description` TEXT,
-    `type_info` VARCHAR(11),
+    `type_error` VARCHAR(11),
     `document` VARCHAR(255),
     `status_notif` TINYINT(1),
     `created_at` DATETIME,

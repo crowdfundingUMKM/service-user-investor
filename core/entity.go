@@ -46,8 +46,8 @@ type NotifInvestor struct {
 	UserInvestorId string
 	Title          string
 	Description    string
-	TypeInfo       string
 	Document       string
+	TypeError      string
 	StatusNotif    int
 	CreatedAt      time.Time
 	UpdatedAt      time.Time

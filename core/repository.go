@@ -18,6 +18,8 @@ type Repository interface {
 	UpdateToken(user User) (User, error)
 	GetAllUser() ([]User, error)
 	DeleteUser(user User) (User, error)
+
+	SaveReport(report NotifInvestor) (NotifInvestor, error)
 }
 
 type repository struct {
@@ -152,4 +154,15 @@ func (r *repository) DeleteUser(user User) (User, error) {
 	}
 
 	return user, nil
+}
+
+// REPORT
+
+func (r *repository) SaveReport(notifInvestor NotifInvestor) (NotifInvestor, error) {
+	err := r.db.Create(&notifInvestor).Error
+	if err != nil {
+		return notifInvestor, err
+	}
+	return notifInvestor, nil
+
 }

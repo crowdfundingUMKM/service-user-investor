@@ -37,6 +37,7 @@ func main() {
 
 	// setup handler
 	userHandler := handler.NewUserHandler(userInvestorService, authService)
+	notifHandler := handler.NewNotifHandler(userInvestorService, authService)
 
 	// END SETUP
 
@@ -94,14 +95,12 @@ func main() {
 	api.POST("/upload_avatar", middleware.AuthMiddleware(authService, userInvestorService), userHandler.UploadAvatar)
 	//make update image profile user by unix_id
 
-	//make delete image profile user by unix_id
-
 	// make logout user by unix_id
 	api.POST("/logout_investor", middleware.AuthMiddleware(authService, userInvestorService), userHandler.LogoutUser)
 
 	// Notif to admin route
-	// api.POST("/report_to_admin", middleware.AuthMiddleware(authService, userInvestorService), userHandler.ReportToAdmin)
-	// api.GET("/get_notif_admin", middleware.AuthMiddleware(authService, userInvestorService), userHandler.GetNotifToAdmin)
+	api.POST("/report_to_admin", middleware.AuthMiddleware(authService, userInvestorService), notifHandler.ReportToAdmin)
+	// api.GET("/get_notif_admin", middleware.AuthApiAdminMiddleware(authService, userInvestorService), userHandler.GetNotifToAdmin)
 
 	// end Rounting
 	// make env SERVICE_HOST and SERVICE_PORT

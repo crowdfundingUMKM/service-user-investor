@@ -56,3 +56,14 @@ type UpdatePasswordInput struct {
 // type UpdateAvatarInput struct {
 // 	Avatar string `file:"avatar" binding:"required"`
 // }
+
+// title (string)
+// description (string)
+// type_info (string)
+// status_notif (int)
+
+type ReportToAdminInput struct {
+	Title       string `json:"title" binding:"required"`
+	Description string `json:"description" binding:"required"`
+	TypeError   string `json:"type_error" binding:"required"`
+}
