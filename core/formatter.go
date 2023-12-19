@@ -105,3 +105,18 @@ func FormatterNotify(notify NotifInvestor) NotifyFormatter {
 	}
 	return formatter
 }
+
+// for api to other service
+type UserInvestor struct {
+	UnixInvestor          string `json:"unix_investor"`
+	StatusAccountInvestor string `json:"status_account_investor"`
+}
+
+// get user Investor status
+func FormatterUserInvestorID(user User) UserInvestor {
+	formatter := UserInvestor{
+		UnixInvestor:          user.UnixID,
+		StatusAccountInvestor: user.StatusAccount,
+	}
+	return formatter
+}

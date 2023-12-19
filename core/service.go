@@ -32,6 +32,7 @@ type Service interface {
 	DeleteToken(UnixID string) (User, error)
 
 	ReportAdmin(UnixID string, input ReportToAdminInput) (NotifInvestor, error)
+	GetAllReport() ([]NotifInvestor, error)
 }
 
 type service struct {
@@ -323,4 +324,13 @@ func (s *service) ReportAdmin(UnixID string, input ReportToAdminInput) (NotifInv
 		return newNotif, err
 	}
 	return newNotif, nil
+}
+
+// get all users
+func (s *service) GetAllReport() ([]NotifInvestor, error) {
+	report, err := s.repository.GetAllReport()
+	if err != nil {
+		return report, err
+	}
+	return report, nil
 }

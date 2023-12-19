@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	api_admin "service-user-investor/api/admin"
 	"service-user-investor/auth"
 	"service-user-investor/core"
 	"service-user-investor/helper"
@@ -162,4 +163,27 @@ func (h *notifHandler) ReportToAdmin(c *gin.Context) {
 
 	response := helper.APIResponse("Report to admin success", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
+}
+
+// GetNotifToAdmin
+func (h *notifHandler) GetNotifToAdmin(c *gin.Context) {
+	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
+
+	if currentAdmin.UnixAdmin == "" {
+		errorMessage := gin.H{"errors": "Your account admin is logout"}
+		response := helper.APIResponse("Get all reports", http.StatusUnprocessableEntity, "error", errorMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+
+	users, err := h.userService.GetAllUsers()
+	if err != nil {
+		response := helper.APIResponse("Failed All report investor", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	response := helper.APIResponse("List of report investor", http.StatusOK, "success", users)
+	c.JSON(http.StatusOK, response)
+	return
+
 }

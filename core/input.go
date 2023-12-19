@@ -53,17 +53,12 @@ type UpdatePasswordInput struct {
 	NewPassword string `json:"new_password" binding:"required"`
 }
 
-// type UpdateAvatarInput struct {
-// 	Avatar string `file:"avatar" binding:"required"`
-// }
-
-// title (string)
-// description (string)
-// type_info (string)
-// status_notif (int)
-
 type ReportToAdminInput struct {
 	Title       string `json:"title" binding:"required"`
 	Description string `json:"description" binding:"required"`
 	TypeError   string `json:"type_error" binding:"required"`
+}
+
+type GetUserIdInput struct {
+	UnixID string `uri:"unix_id" binding:"required"`
 }

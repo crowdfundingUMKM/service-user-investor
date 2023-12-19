@@ -70,6 +70,32 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 	}
 }
 
+// get info user
+func (h *userInvestorHandler) GetInfoInvestorID(c *gin.Context) {
+	var inputID core.GetUserIdInput
+
+	// check id is valid or not
+	err := c.ShouldBindUri(&inputID)
+	if err != nil {
+		response := helper.APIResponse("Failed get user admin and status", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	user, err := h.userService.GetUserByUnixID(inputID.UnixID)
+	if err != nil {
+		response := helper.APIResponse("Get user failed", http.StatusBadRequest, "error", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	formatter := core.FormatterUserInvestorID(user)
+
+	response := helper.APIResponse("Successfuly get user id and status", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
+
+}
+
 // cen acces to veriefy token VerifyToken
 func (h *userInvestorHandler) VerifyToken(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(core.User)

@@ -20,6 +20,7 @@ type Repository interface {
 	DeleteUser(user User) (User, error)
 
 	SaveReport(report NotifInvestor) (NotifInvestor, error)
+	GetAllReport() ([]NotifInvestor, error)
 }
 
 type repository struct {
@@ -165,4 +166,17 @@ func (r *repository) SaveReport(notifInvestor NotifInvestor) (NotifInvestor, err
 	}
 	return notifInvestor, nil
 
+}
+
+// get all user
+func (r *repository) GetAllReport() ([]NotifInvestor, error) {
+	var notifInvestor []NotifInvestor
+
+	err := r.db.Find(&notifInvestor).Error
+
+	if err != nil {
+		return notifInvestor, err
+	}
+
+	return notifInvestor, nil
 }

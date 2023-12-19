@@ -73,7 +73,9 @@ func main() {
 
 	// Rounting start for investor
 	// starting endpoint
-	// Verify Toke
+	api.GET("/getInvestorID/:unix_id", userHandler.GetInfoInvestorID)
+
+	// Verify Token
 	api.GET("/verifyTokenInvestor", middleware.AuthMiddleware(authService, userInvestorService), userHandler.VerifyToken)
 	api.GET("/service_start", userHandler.ServiceStart)
 	api.GET("/service_check", middleware.AuthMiddleware(authService, userInvestorService), userHandler.ServiceCheckDB)
@@ -100,7 +102,8 @@ func main() {
 
 	// Notif to admin route
 	api.POST("/report_to_admin", middleware.AuthMiddleware(authService, userInvestorService), notifHandler.ReportToAdmin)
-	// api.GET("/get_notif_admin", middleware.AuthApiAdminMiddleware(authService, userInvestorService), userHandler.GetNotifToAdmin)
+	api.GET("/get_notif_admin", middleware.AuthApiAdminMiddleware(authService, userInvestorService), notifHandler.GetNotifToAdmin)
+	// update report
 
 	// end Rounting
 	// make env SERVICE_HOST and SERVICE_PORT
