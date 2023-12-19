@@ -72,7 +72,8 @@ func main() {
 
 	// Rounting start for investor
 	// starting endpoint
-	//make service health for investor
+	// Verify Toke
+	api.GET("/verifyTokenInvestor", middleware.AuthMiddleware(authService, userInvestorService), userHandler.VerifyToken)
 	api.GET("/service_start", userHandler.ServiceStart)
 	api.GET("/service_check", middleware.AuthMiddleware(authService, userInvestorService), userHandler.ServiceCheckDB)
 	api.POST("/register_investor", userHandler.RegisterUser)
