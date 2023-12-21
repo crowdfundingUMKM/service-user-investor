@@ -9,6 +9,7 @@ type UserInvestorFormatter struct {
 	BioUser       string `json:"bio_user"`
 	Avatar        string `json:"avatar_file_name"`
 	StatusAccount string `json:"status_account"`
+	Token         string `json:"token"`
 }
 
 func FormatterUser(user User, token string) UserInvestorFormatter {
@@ -21,6 +22,7 @@ func FormatterUser(user User, token string) UserInvestorFormatter {
 		BioUser:       user.BioUser,
 		Avatar:        user.AvatarFileName,
 		StatusAccount: user.StatusAccount,
+		Token:         token,
 	}
 	return formatter
 }

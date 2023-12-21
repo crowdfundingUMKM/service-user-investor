@@ -15,7 +15,7 @@ CREATE TABLE `users` (
     `avatar_file_name` VARCHAR(255),
     `token` VARCHAR(255),
     `update_id_admin` CHAR(12),
-    `udpate_at_admin` DATETIME,
+    `update_at_admin` DATETIME,
     `created_at` DATETIME,
     `updated_at` DATETIME,
     PRIMARY KEY (`id`)

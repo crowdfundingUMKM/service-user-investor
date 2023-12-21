@@ -103,6 +103,9 @@ func main() {
 	// Notif to admin route
 	api.POST("/report_to_admin", middleware.AuthMiddleware(authService, userInvestorService), notifHandler.ReportToAdmin)
 	api.GET("/get_notif_admin", middleware.AuthApiAdminMiddleware(authService, userInvestorService), notifHandler.GetNotifToAdmin)
+
+	// admin req
+	// api.PUT("/update_status_admin", middleware.AuthApiAdminMiddleware(authService, userInvestorService), notifHandler.UpdateStatusNotifToAdmin)
 	// update report
 
 	// end Rounting

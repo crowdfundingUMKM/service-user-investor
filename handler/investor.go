@@ -703,7 +703,7 @@ func (h *userInvestorHandler) UpdatePassword(c *gin.Context) {
 
 // Upload image
 func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
-	f, uploadedFile, err := c.Request.FormFile("avatar")
+	f, _, err := c.Request.FormFile("avatar")
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
 		response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "error", data)
@@ -730,7 +730,7 @@ func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
 	// var err error
 	ctx := appengine.NewContext(c.Request)
 
-	storageClient, err = storage.NewClient(ctx, option.WithCredentialsFile("keys.json"))
+	storageClient, err = storage.NewClient(ctx, option.WithCredentialsFile("secret-keys.json"))
 
 	if err != nil {
 		// data := gin.H{"is_uploaded": false}
@@ -741,7 +741,7 @@ func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
 	}
 	defer f.Close()
 
-	objectName := fmt.Sprintf("%s/avatar-%s-%s-%s", subfolder, userID, userName, uploadedFile.Filename)
+	objectName := fmt.Sprintf("%s/avatar-%s-%s", subfolder, userID, userName)
 	sw := storageClient.Bucket(bucket).Object(objectName).NewWriter(ctx)
 
 	if _, err := io.Copy(sw, f); err != nil {
