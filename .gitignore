@@ -29,3 +29,4 @@ tmp/gin.log
 
 # Keys
 keys.json
+secret-keys.json
