@@ -176,7 +176,7 @@ func (h *notifHandler) GetNotifToAdmin(c *gin.Context) {
 		return
 	}
 
-	users, err := h.userService.GetAllUsers()
+	users, err := h.userService.GetAllReport()
 	if err != nil {
 		response := helper.APIResponse("Failed All report investor", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
