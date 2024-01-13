@@ -50,6 +50,8 @@ func (s *service) RegisterUser(input RegisterUserInput) (User, error) {
 	user.Email = input.Email
 	user.Phone = input.Phone
 	user.AvatarFileName = "/crwdstorage/avatar_investor/dafault-avatar.png"
+	user.FBLink = "https://www.facebook.com/"
+	user.IGLink = "https://www.instagram.com/"
 
 	passwordHash, err := bcrypt.GenerateFromPassword([]byte(input.Password), bcrypt.MinCost)
 

@@ -41,7 +41,7 @@ func FormatValidationError(err error) []string {
 	return errors
 }
 
-// Amin Request
+// Admin Request
 type UserAdmin struct {
 	UnixAdmin          string `json:"unix_admin"`
 	StatusAccountAdmin string `json:"status_account_admin"`

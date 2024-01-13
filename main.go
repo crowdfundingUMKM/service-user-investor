@@ -104,10 +104,6 @@ func main() {
 	api.POST("/report_to_admin", middleware.AuthMiddleware(authService, userInvestorService), notifHandler.ReportToAdmin)
 	api.GET("/get_notif_admin", middleware.AuthApiAdminMiddleware(authService, userInvestorService), notifHandler.GetNotifToAdmin)
 
-	// admin req
-	// api.PUT("/update_status_admin", middleware.AuthApiAdminMiddleware(authService, userInvestorService), notifHandler.UpdateStatusNotifToAdmin)
-	// update report
-
 	// end Rounting
 	// make env SERVICE_HOST and SERVICE_PORT
 	url := fmt.Sprintf("%s:%s", os.Getenv("SERVICE_HOST"), os.Getenv("SERVICE_PORT"))

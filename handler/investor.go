@@ -621,7 +621,7 @@ func (h *userInvestorHandler) GetUser(c *gin.Context) {
 		return
 	}
 
-	formatter := core.FormatterUser(currentUser, "")
+	formatter := core.FormatterUserDetail(currentUser, currentUser)
 
 	response := helper.APIResponse("Successfuly get user by middleware", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, response)
@@ -703,7 +703,7 @@ func (h *userInvestorHandler) UpdatePassword(c *gin.Context) {
 
 // Upload image
 func (h *userInvestorHandler) UploadAvatar(c *gin.Context) {
-	f, _, err := c.Request.FormFile("avatar")
+	f, _, err := c.Request.FormFile("avatar_file_name")
 	if err != nil {
 		data := gin.H{"is_uploaded": false}
 		response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "error", data)
