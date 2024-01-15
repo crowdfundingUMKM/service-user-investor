@@ -218,7 +218,7 @@ func (h *userInvestorHandler) ServiceCheckDB(c *gin.Context) {
 
 	response := helper.APIResponse("Service is running", http.StatusOK, "success", data)
 	c.JSON(http.StatusOK, response)
-
+	return
 }
 
 // deactive account
