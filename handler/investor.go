@@ -116,10 +116,10 @@ func (h *userInvestorHandler) VerifyToken(c *gin.Context) {
 	}
 
 	data := gin.H{
-		"success":  "Your token investor is valid",
-		"admin_id": currentUser.UnixID,
-		"email":    currentUser.Email,
-		"name":     currentUser.Name,
+		"success":          "Your token investor is valid",
+		"user_investor_id": currentUser.UnixID,
+		"email":            currentUser.Email,
+		"name":             currentUser.Name,
 	}
 
 	response := helper.APIResponse("Successfuly get user by middleware", http.StatusOK, "success", data)
