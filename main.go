@@ -73,7 +73,7 @@ func main() {
 
 	// Rounting start for investor
 	// starting endpoint
-	api.GET("/getInvestorID/:unix_id", userHandler.GetInfoInvestorID)
+	api.GET("/investor/getUserInvestorID/:unix_id", userHandler.GetInfoInvestorID)
 
 	// Verify Token
 	api.GET("/verifyTokenInvestor", middleware.AuthMiddleware(authService, userInvestorService), userHandler.VerifyToken)
