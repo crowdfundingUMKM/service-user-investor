@@ -3,7 +3,6 @@ package handler
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -49,7 +48,7 @@ func (h *userInvestorHandler) GetLogtoAdmin(c *gin.Context) {
 	currentAdmin := c.MustGet("currentUserAdmin").(api_admin.AdminId)
 
 	if c.Param("admin_id") == getAdminValueId && currentAdmin.UnixAdmin == getAdminValueId {
-		content, err := ioutil.ReadFile("./tmp/gin.log")
+		content, err := os.ReadFile("./tmp/gin.log")
 		if err != nil {
 			response := helper.APIResponse("Failed to get log", http.StatusBadRequest, "error", nil)
 			c.JSON(http.StatusBadRequest, response)
